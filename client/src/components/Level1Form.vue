@@ -263,13 +263,44 @@ const resetQuiz = () => {
     </div>
 
     <!-- Header with Timer -->
-    <div class="text-center mb-8">
-      <div class="flex justify-between items-center mb-4">
+    <div class="text-center mb-4 sm:mb-8">
+      <!-- Mobile Layout: Stacked -->
+      <div class="block md:hidden space-y-3">
+        <!-- Title -->
+        <h2 class="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-fade-in">
+          🧮 Math Quiz
+        </h2>
+        
+        <!-- Timer Card -->
+        <Card class="shadow-lg border-2" :class="timeRemaining < 60 ? 'border-red-500 animate-pulse' : 'border-purple-300'">
+          <template #content>
+            <div class="flex justify-between items-center px-3 py-2">
+              <div class="flex gap-2">
+                <Chip label="Advanced" icon="pi pi-graduation-cap" class="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-xs" />
+                <Chip label="Timed" icon="pi pi-clock" class="bg-gradient-to-r from-orange-500 to-red-600 text-white text-xs" />
+              </div>
+              <div class="text-right">
+                <Tag :severity="timeRemaining < 60 ? 'danger' : timeRemaining < 120 ? 'warn' : 'success'" class="text-xs mb-1">
+                  <i class="pi pi-clock mr-1"></i>
+                  Time
+                </Tag>
+                <div :class="['text-xl font-bold font-mono', timeColor]">
+                  {{ formatTime }}
+                </div>
+                <Badge v-if="timeRemaining < 60" value="HURRY!" severity="danger" class="mt-1" />
+              </div>
+            </div>
+          </template>
+        </Card>
+      </div>
+      
+      <!-- Desktop/Tablet Layout: Horizontal -->
+      <div class="hidden md:flex justify-between items-center mb-4">
         <div class="flex gap-2">
           <Chip label="Advanced" icon="pi pi-graduation-cap" class="bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg" />
           <Chip label="Timed" icon="pi pi-clock" class="bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg" />
         </div>
-        <h2 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-fade-in">
+        <h2 class="text-2xl lg:text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-fade-in">
           🧮 Advanced Mathematical & Physical Aptitude Assessment
         </h2>
         <div class="flex flex-col items-end">
@@ -289,32 +320,34 @@ const resetQuiz = () => {
           </Card>
         </div>
       </div>
-      <div class="flex justify-center gap-3 mt-4">
-        <Tag severity="info" rounded>
-          <i class="pi pi-user mr-2"></i>
-          Intellectual Verification Matrix
+      <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mt-3 sm:mt-4">
+        <Tag severity="info" rounded class="text-xs sm:text-sm">
+          <i class="pi pi-user mr-1 sm:mr-2"></i>
+          <span class="hidden sm:inline">Intellectual Verification Matrix</span>
+          <span class="inline sm:hidden">Verification</span>
         </Tag>
-        <Tag severity="danger" rounded>
-          <i class="pi pi-exclamation-triangle mr-2"></i>
-          Superior Cognitive Abilities Required
+        <Tag severity="danger" rounded class="text-xs sm:text-sm">
+          <i class="pi pi-exclamation-triangle mr-1 sm:mr-2"></i>
+          <span class="hidden sm:inline">Superior Cognitive Abilities Required</span>
+          <span class="inline sm:hidden">Advanced</span>
         </Tag>
       </div>
-      <div class="mt-3">
-        <Message severity="warn" :closable="false" class="justify-center">
+      <div class="mt-2 sm:mt-3">
+        <Message severity="warn" :closable="false" class="justify-center text-xs sm:text-sm">
           <span class="font-bold">⚠️ WARNING:</span> Timer expiry = Total reset!
         </Message>
       </div>
     </div>
 
     <!-- Progress Bar -->
-    <Card class="mb-6">
+    <Card class="mb-4 sm:mb-6">
       <template #content>
-        <div class="text-center mb-4">
-          <h3 class="text-lg font-semibold">Assessment Progress</h3>
-          <p class="text-sm text-gray-600">Page {{ currentPage }} of {{ totalPages }}</p>
+        <div class="text-center mb-3 sm:mb-4">
+          <h3 class="text-base sm:text-lg font-semibold">Assessment Progress</h3>
+          <p class="text-xs sm:text-sm text-gray-600">Page {{ currentPage }} of {{ totalPages }}</p>
         </div>
         <ProgressBar :value="progress" class="mb-2" />
-        <div class="flex justify-between text-xs text-gray-500">
+        <div class="flex flex-col sm:flex-row justify-between text-[10px] sm:text-xs text-gray-500 gap-1 sm:gap-0">
           <span>📐 Calculus & Integration</span>
           <span>⚛️ Differential Equations</span>
           <span>∞ Complex Analysis</span>
@@ -323,26 +356,26 @@ const resetQuiz = () => {
     </Card>
 
     <!-- Quiz Content -->
-    <Card class="shadow-2xl border-2 border-purple-200 hover:shadow-purple-300 transition-all duration-300">
+    <Card class="shadow-xl sm:shadow-2xl border sm:border-2 border-purple-200 hover:shadow-purple-300 transition-all duration-300">
       <template #content>
-        <div class="space-y-6 p-4">
+        <div class="space-y-4 sm:space-y-6 p-2 sm:p-4">
           
           <!-- Page 1: Harder Integration & Calculus -->
-          <div v-if="currentPage === 1" class="space-y-6">
-            <h3 class="text-2xl font-bold text-center bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+          <div v-if="currentPage === 1" class="space-y-4 sm:space-y-6">
+            <h3 class="text-lg sm:text-2xl font-bold text-center bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
               📐 Advanced Calculus & Integration
             </h3>
-            <p class="text-center text-sm text-gray-600 italic">
+            <p class="text-center text-xs sm:text-sm text-gray-600 italic">
               These problems would make Leibniz sweat...
             </p>
             
-            <div v-for="(question, index) in currentQuestions" :key="question.id" class="field bg-blue-50 p-6 rounded-xl border-2 border-blue-200">
-              <label class="block text-lg font-semibold mb-4 text-gray-800">
+            <div v-for="(question, index) in currentQuestions" :key="question.id" class="field bg-blue-50 p-3 sm:p-6 rounded-lg sm:rounded-xl border sm:border-2 border-blue-200">
+              <label class="block text-sm sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">
                 {{ index + 1 }}. {{ question.question }}
               </label>
               
-              <div v-if="question.options" class="space-y-3">
-                <div v-for="option in question.options" :key="option" class="flex items-center gap-3">
+              <div v-if="question.options" class="space-y-2 sm:space-y-3">
+                <div v-for="option in question.options" :key="option" class="flex items-center gap-2 sm:gap-3">
                   <RadioButton 
                     :value="option" 
                     v-model="answers[question.id]" 
@@ -364,27 +397,27 @@ const resetQuiz = () => {
           </div>
 
           <!-- Page 2: Advanced Physics & Differential Equations -->
-          <div v-if="currentPage === 2" class="space-y-6">
-            <h3 class="text-2xl font-bold text-center bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
+          <div v-if="currentPage === 2" class="space-y-4 sm:space-y-6">
+            <h3 class="text-lg sm:text-2xl font-bold text-center bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
               ⚛️ Differential Equations & Wave Theory
             </h3>
-            <p class="text-center text-sm text-gray-600 italic">
+            <p class="text-center text-xs sm:text-sm text-gray-600 italic">
               Now we're talking serious mathematics...
             </p>
             
-            <div v-for="(question, index) in currentQuestions" :key="question.id" class="field bg-red-50 p-6 rounded-xl border-2 border-red-200">
-              <label class="block text-lg font-semibold mb-4 text-gray-800">
+            <div v-for="(question, index) in currentQuestions" :key="question.id" class="field bg-red-50 p-3 sm:p-6 rounded-lg sm:rounded-xl border sm:border-2 border-red-200">
+              <label class="block text-sm sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">
                 {{ index + 1 }}. {{ question.question }}
               </label>
               
-              <div v-if="question.options" class="space-y-3">
-                <div v-for="option in question.options" :key="option" class="flex items-center gap-3">
+              <div v-if="question.options" class="space-y-2 sm:space-y-3">
+                <div v-for="option in question.options" :key="option" class="flex items-center gap-2 sm:gap-3">
                   <RadioButton 
                     :value="option" 
                     v-model="answers[question.id]" 
                     :inputId="`${question.id}_${option}`" 
                   />
-                  <label :for="`${question.id}_${option}`" class="text-sm font-mono cursor-pointer">
+                  <label :for="`${question.id}_${option}`" class="text-xs sm:text-sm font-mono cursor-pointer">
                     {{ option }}
                   </label>
                 </div>
@@ -394,27 +427,27 @@ const resetQuiz = () => {
                 v-else
                 v-model="answers[question.id]"
                 :placeholder="(question as any).placeholder || 'Enter your answer...'"
-                class="w-full mt-2 font-mono text-lg"
+                class="w-full mt-2 font-mono text-base sm:text-lg"
               />
             </div>
           </div>
 
           <!-- Page 3: Complex Analysis & Advanced Integrals -->
-          <div v-if="currentPage === 3" class="space-y-6">
-            <h3 class="text-2xl font-bold text-center bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <div v-if="currentPage === 3" class="space-y-4 sm:space-y-6">
+            <h3 class="text-lg sm:text-2xl font-bold text-center bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
               ∞ Complex Analysis & Residue Calculus
             </h3>
-            <p class="text-center text-sm text-gray-600 italic">
+            <p class="text-center text-xs sm:text-sm text-gray-600 italic">
               Welcome to the final boss level of mathematics...
             </p>
             
-            <div v-for="(question, index) in currentQuestions" :key="question.id" class="field p-6 rounded-xl border-2" :class="question.id === 'name' ? 'bg-green-50 border-green-200' : 'bg-purple-50 border-purple-200'">
-              <label class="block text-lg font-semibold mb-4 text-gray-800">
+            <div v-for="(question, index) in currentQuestions" :key="question.id" class="field p-3 sm:p-6 rounded-lg sm:rounded-xl border sm:border-2" :class="question.id === 'name' ? 'bg-green-50 border-green-200' : 'bg-purple-50 border-purple-200'">
+              <label class="block text-sm sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-800">
                 {{ index + 1 }}. {{ question.question }}
               </label>
               
-              <div v-if="question.options" class="space-y-3">
-                <div v-for="option in question.options" :key="option" class="flex items-center gap-3">
+              <div v-if="question.options" class="space-y-2 sm:space-y-3">
+                <div v-for="option in question.options" :key="option" class="flex items-center gap-2 sm:gap-3">
                   <RadioButton 
                     :value="option" 
                     v-model="answers[question.id]" 
@@ -430,7 +463,7 @@ const resetQuiz = () => {
                 v-else
                 v-model="answers[question.id]"
                 :placeholder="(question as any).placeholder || 'Enter your answer...'"
-                class="w-full mt-2 font-mono text-lg"
+                class="w-full mt-2 font-mono text-base sm:text-lg"
                 :class="{ 'border-green-400 bg-green-50': question.id === 'name' }"
               />
             </div>
@@ -447,7 +480,7 @@ const resetQuiz = () => {
     </Card>
 
     <!-- Navigation -->
-    <div class="flex items-center justify-between gap-4 pt-4">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 pt-4">
       <Button 
         @click="prevPage"
         :disabled="currentPage === 1"
@@ -455,10 +488,11 @@ const resetQuiz = () => {
         icon="pi pi-arrow-left"
         severity="secondary"
         outlined
+        class="w-full sm:w-auto min-h-[44px]"
       />
       
       <div class="flex-grow text-center">
-        <span class="text-sm text-gray-500">
+        <span class="text-xs sm:text-sm text-gray-500">
           Mathematical precision is required for advancement
         </span>
       </div>
@@ -470,6 +504,7 @@ const resetQuiz = () => {
         icon="pi pi-arrow-right"
         iconPos="right"
         severity="info"
+        class="w-full sm:w-auto min-h-[44px]"
       />
 
       <Button 
@@ -481,6 +516,7 @@ const resetQuiz = () => {
         icon="pi pi-check"
         severity="success"
         size="large"
+        class="w-full sm:w-auto min-h-[44px]"
       />
 
       <Button 
@@ -489,9 +525,10 @@ const resetQuiz = () => {
         icon="pi pi-refresh"
         severity="danger"
         size="large"
-        class="!bg-gradient-to-r !from-red-500 !to-pink-600 animate-pulse"
+        class="!bg-gradient-to-r !from-red-500 !to-pink-600 animate-pulse w-full sm:w-auto min-h-[44px]"
         outlined
       />
+    </div>
     </div>
   </div>
 </template>

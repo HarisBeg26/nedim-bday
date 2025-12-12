@@ -237,22 +237,22 @@ const scrollToBottom = () => {
 </script>
 
 <template>
-  <div class="flex flex-col space-y-4">
+  <div class="flex flex-col space-y-3 sm:space-y-4">
     <div class="text-center">
-      <h2 class="text-4xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-1 sm:mb-2">
         💈 Aldinova Berberna Radnja 💈
       </h2>
-      <p class="text-gray-500 text-sm">Šišanje sa intelektualnim izazovom</p>
+      <p class="text-gray-500 text-xs sm:text-sm">Šišanje sa intelektualnim izazovom</p>
     </div>
 
     <!-- Haircut Quality Indicator -->
-    <Card class="mb-4 bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-200">
+    <Card class="mb-3 sm:mb-4 bg-gradient-to-r from-orange-50 to-red-50 border sm:border-2 border-orange-200">
       <template #content>
         <div class="flex items-center justify-between">
           <div class="flex-1">
-            <div class="flex items-center gap-2 mb-2">
-              <Tag :value="`${haircutQuality}%`" :severity="haircutQuality >= 70 ? 'success' : haircutQuality >= 40 ? 'warn' : 'danger'" />
-              <span class="text-sm font-semibold text-gray-700">{{ haircutStatus }}</span>
+            <div class="flex items-center gap-1 sm:gap-2 mb-2">
+              <Tag :value="`${haircutQuality}%`" :severity="haircutQuality >= 70 ? 'success' : haircutQuality >= 40 ? 'warn' : 'danger'" class="text-xs sm:text-sm" />
+              <span class="text-xs sm:text-sm font-semibold text-gray-700">{{ haircutStatus }}</span>
             </div>
             <ProgressBar 
               :value="haircutQuality" 
@@ -269,23 +269,23 @@ const scrollToBottom = () => {
               }"
             />
           </div>
-          <div class="text-6xl ml-4">{{ haircutEmoji }}</div>
+          <div class="text-4xl sm:text-5xl md:text-6xl ml-2 sm:ml-4">{{ haircutEmoji }}</div>
         </div>
-        <div class="mt-3 flex gap-2">
-          <Chip :label="`❌ Greške: ${wrongAnswers}`" class="bg-red-100 text-red-700" />
-          <Chip :label="`📝 Pitanje: ${currentQuestion + 1}/${questions.length}`" class="bg-orange-100 text-orange-700" />
+        <div class="mt-2 sm:mt-3 flex gap-1 sm:gap-2">
+          <Chip :label="`❌ Greške: ${wrongAnswers}`" class="bg-red-100 text-red-700 text-xs sm:text-sm" />
+          <Chip :label="`📝 Pitanje: ${currentQuestion + 1}/${questions.length}`" class="bg-orange-100 text-orange-700 text-xs sm:text-sm" />
         </div>
       </template>
     </Card>
     
-    <Card class="shadow-lg overflow-hidden border-4 border-orange-300">
+    <Card class="shadow-lg overflow-hidden border-2 sm:border-4 border-orange-300">
       <template #content>
         <ScrollPanel 
           id="chat-container" 
-          class="h-[450px] pr-4"
+          class="h-[350px] sm:h-[400px] md:h-[450px] pr-2 sm:pr-4"
           style="width: 100%"
         >
-          <div class="space-y-4 p-2">
+          <div class="space-y-3 sm:space-y-4 p-1 sm:p-2">
             <div 
               v-for="msg in messages" 
               :key="msg.id"
@@ -294,7 +294,7 @@ const scrollToBottom = () => {
             >
               <div 
                 :class="[
-                  'px-4 py-3 max-w-[80%] shadow-lg',
+                  'px-3 sm:px-4 py-2 sm:py-3 max-w-[85%] sm:max-w-[80%] shadow-lg',
                   msg.sender === 'user' 
                     ? 'bg-blue-500 text-white rounded-3xl rounded-br-md' 
                     : msg.text.includes('Aldin:')
@@ -303,17 +303,17 @@ const scrollToBottom = () => {
                 ]"
                 style="word-break: break-word;"
               >
-                <p class="leading-relaxed text-[15px]" :class="msg.sender === 'user' ? 'text-white' : 'text-gray-900'">
+                <p class="leading-relaxed text-[13px] sm:text-[15px]" :class="msg.sender === 'user' ? 'text-white' : 'text-gray-900'">
                   {{ msg.text }}
                 </p>
               </div>
             </div>
             
             <div v-if="isLoading" class="flex justify-start animate-pulse">
-              <div class="bg-orange-50 border border-orange-200 px-4 py-3 rounded-3xl rounded-bl-md shadow-lg">
-                <div class="flex items-center gap-2">
-                  <i class="pi pi-spin pi-spinner text-orange-600"></i>
-                  <span class="text-gray-700 text-sm">Aldin razmišlja... ✂️</span>
+              <div class="bg-orange-50 border border-orange-200 px-3 sm:px-4 py-2 sm:py-3 rounded-3xl rounded-bl-md shadow-lg">
+                <div class="flex items-center gap-1 sm:gap-2">
+                  <i class="pi pi-spin pi-spinner text-orange-600 text-sm"></i>
+                  <span class="text-gray-700 text-xs sm:text-sm">Aldin razmišlja... ✂️</span>
                 </div>
               </div>
             </div>
@@ -322,14 +322,14 @@ const scrollToBottom = () => {
       </template>
     </Card>
 
-    <div class="mt-4 bg-white rounded-2xl shadow-lg p-4 border border-gray-200">
-      <div class="flex gap-3 items-center">
+    <div class="mt-3 sm:mt-4 bg-white rounded-xl sm:rounded-2xl shadow-lg p-3 sm:p-4 border border-gray-200">
+      <div class="flex gap-2 sm:gap-3 items-center">
         <div class="flex-grow">
           <InputText 
             v-model="userInput"
             @keyup.enter="sendMessage"
             placeholder="Odgovori Aldinu..."
-            class="w-full !rounded-full !border-gray-300 !px-5 !py-3"
+            class="w-full !rounded-full !border-gray-300 !px-4 sm:!px-5 !py-2 sm:!py-3 text-sm sm:text-base"
             :disabled="isCompleted"
           />
         </div>
@@ -337,12 +337,12 @@ const scrollToBottom = () => {
           @click="sendMessage"
           icon="pi pi-send"
           severity="warning"
-          class="!rounded-full !w-12 !h-12 !p-0 flex items-center justify-center"
+          class="!rounded-full !w-11 !h-11 sm:!w-12 sm:!h-12 !p-0 flex items-center justify-center"
           :disabled="!userInput.trim() || isCompleted"
         />
       </div>
-      <p class="text-xs text-orange-600 mt-3 text-center flex items-center justify-center gap-1">
-        <i class="pi pi-exclamation-triangle"></i>
+      <p class="text-[10px] sm:text-xs text-orange-600 mt-2 sm:mt-3 text-center flex items-center justify-center gap-1">
+        <i class="pi pi-exclamation-triangle text-xs"></i>
         Svaki pogrešan odgovor = lošija frizura!
       </p>
     </div>
@@ -351,7 +351,13 @@ const scrollToBottom = () => {
 
 <style scoped>
 :deep(.p-scrollpanel-content) {
-  padding-right: 1rem;
+  padding-right: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  :deep(.p-scrollpanel-content) {
+    padding-right: 1rem;
+  }
 }
 
 /* Prevent zoom on input focus */
@@ -395,5 +401,11 @@ const scrollToBottom = () => {
 /* Chat bubble styling */
 .space-y-4 > * + * {
   margin-top: 0.75rem;
+}
+
+@media (max-width: 639px) {
+  .space-y-3 > * + * {
+    margin-top: 0.5rem;
+  }
 }
 </style>
