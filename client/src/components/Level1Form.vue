@@ -529,7 +529,6 @@ const resetQuiz = () => {
         outlined
       />
     </div>
-    </div>
   </div>
 </template>
 
