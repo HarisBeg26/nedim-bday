@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3000;
 // CORS configuration for production
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-vercel-app.vercel.app', 'https://nedim-bday.vercel.app'] 
+    ? ['https://nedim-bday.vercel.app/', 'https://nedim-bday.vercel.app'] 
     : '*',
   credentials: true
 };
@@ -172,6 +172,8 @@ app.post('/api/level2/check', (req, res) => {
     });
   }
 });
+
+app.post('/api/level1', (req, res) => {
     const answers = req.body;
     
     // Check if name is provided

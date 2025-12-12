@@ -32,9 +32,31 @@ if (-not $remoteExists) {
 
 # Push
 Write-Host "Pushing to GitHub..." -ForegroundColor Yellow
-git push -u origin main
+$pushResult = git push -u origin main 2>&1
 
-Write-Host "✅ Successfully pushed to GitHub!" -ForegroundColor Green
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "⚠️  Push failed. Remote has changes." -ForegroundColor Yellow
+    Write-Host "Pulling remote changes and retrying..." -ForegroundColor Yellow
+    
+    git pull origin main --allow-unrelated-histories --no-edit
+    
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "Pushing again..." -ForegroundColor Yellow
+        git push -u origin main
+        
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "✅ Successfully pushed to GitHub!" -ForegroundColor Green
+        } else {
+            Write-Host "❌ Push failed. Please resolve conflicts manually." -ForegroundColor Red
+            exit 1
+        }
+    } else {
+        Write-Host "❌ Pull failed. Please resolve conflicts manually." -ForegroundColor Red
+        exit 1
+    }
+} else {
+    Write-Host "✅ Successfully pushed to GitHub!" -ForegroundColor Green
+}
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Cyan
 Write-Host "1. Deploy backend to Render: https://dashboard.render.com/" -ForegroundColor White
