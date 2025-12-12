@@ -218,8 +218,8 @@ app.post('/api/level1', (req, res) => {
     const percentage = Math.round((score / totalQuestions) * 100);
     const timeBonus = timeUsed < 180 ? ' ⚡ Speed bonus achieved!' : '';
     
-    // Determine if they pass (need at least 70% to pass for harder problems)
-    if (percentage >= 70) {
+    // Determine if they pass (need at least 46% to pass for harder problems)
+    if (percentage >= 46) {
         res.json({ 
             success: true, 
             message: `Congratulations ${answers.name}! Your mathematical prowess has been verified. Score: ${score}/${totalQuestions} (${percentage}%)${timeBonus}`,
@@ -232,7 +232,7 @@ app.post('/api/level1', (req, res) => {
     } else {
         // Provide feedback on incorrect answers
         let feedback = `Assessment failed. Score: ${score}/${totalQuestions} (${percentage}%). `;
-        feedback += `You need at least 70% to proceed. `;
+        feedback += `You need at least 46% to proceed. `;
         
         if (incorrectAnswers.length > 0) {
             feedback += `Incorrect answers: ${incorrectAnswers.length}. `;
