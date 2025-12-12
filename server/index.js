@@ -6,9 +6,15 @@ const PORT = process.env.PORT || 3000;
 // CORS configuration for production
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://nedim-bday.vercel.app/', 'https://nedim-bday.vercel.app'] 
+    ? [
+        'https://nedim-bday.vercel.app',
+        'https://hbday-nembid.vercel.app',
+        /\.vercel\.app$/  // Allow all Vercel preview deployments
+      ]
     : '*',
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use(cors(corsOptions));
