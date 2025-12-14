@@ -154,6 +154,11 @@ const sendMessage = async () => {
 <template>
   <div class="relative min-h-screen overflow-hidden flex flex-col">
     
+    <!-- Background Music -->
+    <audio autoplay loop>
+      <source src="/New Recording 208.mp3" type="audio/mpeg">
+    </audio>
+    
     <!-- Background Layer -->
     <div class="absolute inset-0 bg-cover bg-center"
          style="background-image: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2574');">
@@ -227,7 +232,7 @@ const sendMessage = async () => {
           <div class="bg-gradient-to-b from-gray-900 to-black backdrop-blur-xl rounded-2xl sm:rounded-3xl border-4 border-orange-500 shadow-[0_0_50px_rgba(249,115,22,0.5)] overflow-hidden">
             
             <!-- Dialogue History (scrollable) -->
-            <div v-if="dialogueHistory.length > 0" class="max-h-24 sm:max-h-32 overflow-y-auto p-3 sm:p-4 space-y-2 border-b-2 border-orange-500/50 bg-black/90 custom-scrollbar">
+            <div v-if="dialogueHistory.length > 0" class="max-h-24 sm:max-h-32 overflow-y-auto p-3 sm:p-4 space-y-2 border-b-2 border-orange-500/50 bg-black custom-scrollbar">
               <div v-for="(line, index) in dialogueHistory.slice(-5)" :key="index" 
                    class="text-white text-xs sm:text-sm animate-fade-in leading-relaxed font-semibold">
                 {{ line }}
