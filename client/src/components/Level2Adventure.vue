@@ -227,9 +227,9 @@ const sendMessage = async () => {
           <div class="bg-gradient-to-b from-gray-900 to-black backdrop-blur-xl rounded-2xl sm:rounded-3xl border-4 border-orange-500 shadow-[0_0_50px_rgba(249,115,22,0.5)] overflow-hidden">
             
             <!-- Dialogue History (scrollable) -->
-            <div v-if="dialogueHistory.length > 0" class="max-h-24 sm:max-h-32 overflow-y-auto p-3 sm:p-4 space-y-2 border-b-2 border-orange-500/50 bg-black/40 custom-scrollbar">
+            <div v-if="dialogueHistory.length > 0" class="max-h-24 sm:max-h-32 overflow-y-auto p-3 sm:p-4 space-y-2 border-b-2 border-orange-500/50 bg-black/60 custom-scrollbar">
               <div v-for="(line, index) in dialogueHistory.slice(-5)" :key="index" 
-                   class="text-gray-300 text-xs sm:text-sm animate-fade-in leading-relaxed">
+                   class="text-gray-100 text-xs sm:text-sm animate-fade-in leading-relaxed font-medium">
                 {{ line }}
               </div>
             </div>
@@ -239,8 +239,8 @@ const sendMessage = async () => {
               <div class="flex items-start gap-4 mb-6">
                 <div class="text-orange-400 text-3xl sm:text-4xl flex-shrink-0">💬</div>
                 <div class="flex-1">
-                  <div class="text-orange-400 font-bold text-base sm:text-lg mb-3 uppercase tracking-wide">Aldin kaže:</div>
-                  <p class="text-white text-lg sm:text-xl md:text-2xl leading-relaxed font-medium drop-shadow-lg">
+                  <div class="text-orange-300 font-bold text-base sm:text-lg mb-3 uppercase tracking-wide drop-shadow-md">Aldin kaže:</div>
+                  <p class="text-white text-lg sm:text-xl md:text-2xl leading-relaxed font-semibold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.7);">
                     {{ currentDialogue }}
                   </p>
                   <div v-if="isLoading" class="mt-4 flex items-center gap-3 text-orange-400">
@@ -256,7 +256,7 @@ const sendMessage = async () => {
                   v-model="userInput"
                   @keyup.enter="sendMessage"
                   placeholder="Upiši svoj odgovor..."
-                  class="flex-1 !bg-gray-800/80 !border-2 !border-orange-500/70 focus:!border-orange-400 !text-white !text-lg sm:!text-xl !px-5 !py-4 !rounded-xl placeholder:!text-gray-500 shadow-lg"
+                  class="flex-1 !bg-gray-800/90 !border-2 !border-orange-500/70 focus:!border-orange-400 !text-white !text-lg sm:!text-xl !px-5 !py-4 !rounded-xl placeholder:!text-gray-400 shadow-lg font-medium"
                   :disabled="isLoading"
                 />
                 <Button 
@@ -278,9 +278,9 @@ const sendMessage = async () => {
 
           <!-- Hint -->
           <div class="mt-4 text-center">
-            <div class="inline-block bg-black/70 backdrop-blur-md px-6 py-3 rounded-full border-2 border-orange-500/50">
-              <p class="text-orange-300 text-sm sm:text-base flex items-center gap-2 font-medium">
-                <i class="pi pi-info-circle text-orange-400"></i>
+            <div class="inline-block bg-black/80 backdrop-blur-md px-6 py-3 rounded-full border-2 border-orange-500/60">
+              <p class="text-orange-200 text-sm sm:text-base flex items-center gap-2 font-semibold drop-shadow-md">
+                <i class="pi pi-info-circle text-orange-300"></i>
                 <span>Svaki pogrešan odgovor smanjuje kvalitet frizure!</span>
               </p>
             </div>
