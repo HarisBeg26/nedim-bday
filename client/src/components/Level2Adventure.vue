@@ -230,8 +230,8 @@ const sendMessage = async () => {
     
     <!-- Jumpscare Overlay -->
     <transition name="jumpscare">
-      <div v-if="showJumpscare" class="fixed inset-0 z-50 flex items-center justify-center">
-        <img src="/WhatsApp Image 2025-12-14 at 20.15.46_f500ed95.jpg" class="w-full h-full object-cover" alt="jumpscare">
+      <div v-if="showJumpscare" class="fixed inset-0 z-50 flex items-center justify-center bg-black">
+        <img src="/WhatsApp%20Image%202025-12-14%20at%2020.15.46_f500ed95.jpg" class="w-full h-full object-cover" alt="jumpscare">
       </div>
     </transition>
     
