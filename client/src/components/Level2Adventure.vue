@@ -218,14 +218,14 @@ const sendMessage = async () => {
       <source src="/New Recording 208.mp3" type="audio/mpeg">
     </audio>
     
-    <!-- Correct Answer Sound -->
+    <!-- Correct Answer Sound (add correct.mp3 to public folder) -->
     <audio ref="correctSoundRef">
       <source src="/correct.mp3" type="audio/mpeg">
     </audio>
     
-    <!-- Wrong Answer Sound -->
+    <!-- Wrong Answer Sound (add wrong.mp3 to public folder) -->
     <audio ref="wrongSoundRef">
-      <source src="/wrong.mp3" type="audio/mpeg">
+      <!-- <source src="/wrong.mp3" type="audio/mpeg"> -->
     </audio>
     
     <!-- Jumpscare Overlay -->
