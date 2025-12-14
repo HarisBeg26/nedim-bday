@@ -168,7 +168,7 @@ const sendMessage = async () => {
       
       // Different response for math/physics questions
       let response;
-      if (question.type === 'math' || question.type === 'physics') {
+      if (question && (question.type === 'math' || question.type === 'physics')) {
         response = "Ma slabo vas uče bogami...";
         // Still proceed to next question for math/physics
         dialogueHistory.value.push(`Aldin: ${response}`);
@@ -225,7 +225,7 @@ const sendMessage = async () => {
     
     <!-- Wrong Answer Sound (add wrong.mp3 to public folder) -->
     <audio ref="wrongSoundRef">
-      <!-- <source src="/wrong.mp3" type="audio/mpeg"> -->
+      <source src="/wrong.mp3" type="audio/mpeg">
     </audio>
     
     <!-- Jumpscare Overlay -->
