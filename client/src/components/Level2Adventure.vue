@@ -80,7 +80,7 @@ const haircutStatus = computed(() => {
 const checkAnswer = async (userAnswer: string, question: any): Promise<boolean> => {
   const normalized = userAnswer.toLowerCase().trim();
   
-  if (question.type === 'warmup') {
+  if (question.type === 'warmup' || question.type === 'casual') {
     return question.keywords.some((keyword: string) => normalized.includes(keyword.toLowerCase()));
   } else {
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
