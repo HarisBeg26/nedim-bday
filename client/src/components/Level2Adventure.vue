@@ -19,19 +19,21 @@ const isLoading = ref<boolean>(false);
 const dialogueHistory = ref<string[]>([]);
 const currentDialogue = ref<string>("");
 
-// Questions progression
+// Questions progression - from trivial to challenging
 const questions = [
-  { id: 0, text: "Dobro došao u berbersku radnju! Sjedni, molim te. Kako ćemo lafe?", type: 'warmup', keywords: ['fade', 'kratko', 'normalno', 'obrijati'] },
-  { id: 1, text: "Važi brate. A reci mi, kako su ti braća?", type: 'warmup', keywords: ['dobro', 'super', 'sve', 'ok', 'uredu'] },
-  { id: 2, text: "Ma super, super. Jel ti ono nešta u Americi fiziku studiraš?", type: 'warmup', keywords: ['da', 'yes', 'yeah', 'ma da', 'jeste'] },
-  { id: 3, text: "Bravo! A šta misliš da upišeš FIT u Mostaru?", type: 'warmup', keywords: ['možda', 'razmišljam', 'vidjet', 'da'] },
-  { id: 4, text: "E dobro, dobro. Ajd sad malo matematika dok šišam. Koliko je ∫ x·ln(x) dx?", type: 'math', key: 'integral_ln' },
-  { id: 5, text: "Dobro, dobro. A reci mi, koliko je d/dx[e^(x²)]?", type: 'math', key: 'derivative_exp' },
-  { id: 6, text: "Ma bravo! Sad fizika - izračunaj silu gravitacije između dva tijela mase 10kg na udaljenosti 2m. (format: broj u N)", type: 'physics', key: 'gravity_force' },
-  { id: 7, text: "Odlično! Koliko je ∫₀^(π/2) sin²(x) dx?", type: 'math', key: 'definite_integral' },
-  { id: 8, text: "Svaka čast! Reci mi, ako je v = 20 m/s i t = 5s, kolika je udaljenost pri konstantnoj akceleraciji a = 2 m/s²? (format: broj u m)", type: 'physics', key: 'kinematics' },
-  { id: 9, text: "E to! A ovo - riješi diferencijalnu jednačinu: dy/dx + 2y = 4x", type: 'math', key: 'diff_equation' },
-  { id: 10, text: "Ma profesor si ti! Zadnje pitanje - kolika je energija fotona sa talasnom dužinom λ = 500nm? (format: broj u eV, 2 decimale)", type: 'physics', key: 'photon_energy' }
+  { id: 0, text: "Dobro došao u berbersku radnju! Sjedni, molim te. Kako ćemo lafe?", type: 'warmup', keywords: ['fade', 'kratko', 'normalno', 'obrijati'], response: "Ah da, klasičan stil. Razumijem, razumijem... Inače, vidim da si intelektualac, pa ajde malo da popričamo dok šišam." },
+  { id: 1, text: "Reci mi brate, koliko je 2 + 2? Samo da vidim jesi li budan haha.", type: 'warmup', keywords: ['4', 'četiri'], response: "Hehe, pa naravno! To je osnova osnove. Ti i ja smo, vidim, na istom nivou. Ajde, malo ozbiljnije sad..." },
+  { id: 2, text: "Koliko je 15 × 12? Brzo, bez kalkulatora!", type: 'warmup', keywords: ['180'], response: "Ah, 180! Elementarno, dragi moj Watson. Vidi se da si obrazovan čovjek, kao i ja. Nastavimo sa malo težim stvarima..." },
+  { id: 3, text: "Dobro. Reci mi, koliko je √144?", type: 'warmup', keywords: ['12'], response: "Ma jasno, 12! To sam i ja znao dok sam bio u osnovnoj. Ali hajde sad, gdje si ti studirao? Ah, nisam ni pitao... Idemo dalje sa pravim izazovima za intelektualce." },
+  { id: 4, text: "E sad nešto zanimljivije. Koliko je ∫ x² dx? Jednostavna integracija, znaš ti to.", type: 'math', key: 'simple_integral', response: "Tačno! x³/3 + C. Pa to je osnovna matematika, brate. Ti i ja smo, vidim, isti nivo. Idemo na malo kompleksnije..." },
+  { id: 5, text: "Derivacija sada. Što je d/dx[x³]? Trivijalnost, znam.", type: 'math', key: 'simple_derivative', response: "3x²! Naravno, naravno. Elementarne operacije za nas intelektualce. Hajde sad nešto što zahtijeva... 'malo' više razmišljanja." },
+  { id: 6, text: "E sada pravi zadatak. Izračunaj ∫ x·ln(x) dx. Integration by parts, nije teško za ljude kao što smo ti i ja.", type: 'math', key: 'integral_ln', response: "Hah! Pa to je... da, tačno! Dobro si riješio. Vidi se da nisi amater. Kao ni ja, naravno. Idemo na nešto ozbiljnije..." },
+  { id: 7, text: "Hajde sada, d/dx[e^(x²)]. Chain rule, ali znaš ti to bolje od mene... *sarcastično se smije*", type: 'math', key: 'derivative_exp', response: "Bravo, bravo! 2x·e^(x²). Ti zaista razumiješ matematiku... skoro kao i ja. *namiguje* Idemo dalje." },
+  { id: 8, text: "Malo fizike. Kolika je sila gravitacije između dva tijela mase 10kg na 2m udaljenosti? Osnove fizike, ništa teško. (format: naučna notacija)", type: 'physics', key: 'gravity_force', response: "E vidiš! Newton bi bio ponosan... na nas obojicu, naravno. Ajde, još malo da te izazovem..." },
+  { id: 9, text: "Ovaj integral: ∫₀^(π/2) sin²(x) dx. Za prave znalce kao mi, ovo je... pa gotovo dosadno.", type: 'math', key: 'definite_integral', response: "π/4! Precizno! Ti i ja smo, vidim, rijetka vrsta... *ponosno klimne glavom* Nastavimo." },
+  { id: 10, text: "Dobro, kinematika. v₀ = 20 m/s, t = 5s, a = 2 m/s². Kolika je udaljenost? Jednostavna kinematika za nas. (format: broj u m)", type: 'physics', key: 'kinematics', response: "125 metara! Ma da, da... očekivao sam. Ti i ja smo isti nivo, to sam odmah vidio. Još malo..." },
+  { id: 11, text: "Sada, malo ozbiljnije. Riješi dy/dx + 2y = 4x. Diferencijalna jednačina. Ništa što mi dvojica ne možemo.", type: 'math', key: 'diff_equation', response: "Bravo! Vidi se da si... gotovo kao ja. *lagano se smije* Evo, zadnje pitanje za prave intelektualce..." },
+  { id: 12, text: "Finale! Energija fotona, λ = 500nm. Kvantna mehanika, za one kao mi. E = hc/λ (format: broj u eV, 2 decimale)", type: 'physics', key: 'photon_energy', response: "Perfektno! 2.48 eV! Ti si... pa zapravo kao ja! Rijetko nalazim jednake sebi. Frizura je gotova, i moram priznati - ti si jedan od rijetkih koji je na mom nivou! 👏" }
 ];
 
 // Initialize first dialogue
@@ -99,13 +101,8 @@ const sendMessage = async () => {
       currentQuestion.value++;
       
       if (currentQuestion.value < questions.length) {
-        const successMessages = [
-          "Ma bravo! Vidi ga pametnjaković! ✂️",
-          "Tačno! Fino, fino... 💈",
-          "E to! Vidi ovoga kako zna! 👏",
-          "Odlično! Nastavimo... ✨"
-        ];
-        const successMsg = (question as any).successMessage || successMessages[Math.floor(Math.random() * 4)];
+        // Use the custom pretentious response from the current question
+        const successMsg = (question as any).response || "Ma bravo! Vidi ga pametnjaković! ✂️";
         
         dialogueHistory.value.push(`Aldin: ${successMsg}`);
         
@@ -115,7 +112,7 @@ const sendMessage = async () => {
         }, 800);
       } else {
         isCompleted.value = true;
-        dialogueHistory.value.push("Aldin: E BRAVO! Savršeno si odgovorio na sva pitanja! Frizura ti je perfektna! 🏆✨");
+        dialogueHistory.value.push("Aldin: E BRAVO! Savršeno si odgovorio na sva pitanja! Frizura ti je perfektna! Ti si jedan od rijetkih koji razumijem mojom brijaču inteligenciju! 🏆✨");
         currentDialogue.value = "🎮 Trophy Unlocked: THE GUY - Awarded for completing Aldin's Mathematical Haircut Challenge! 🎮";
         isLoading.value = false;
         

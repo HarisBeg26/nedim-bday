@@ -88,52 +88,59 @@ const isAnswerCorrect = (userAnswer, correctAnswer) => {
     return normalized === correct;
 };
 
-// Level 2 - Barbershop Adventure Answer Key (Complex Problems)
+// Level 2 - Barbershop Adventure Answer Key (Progressive difficulty)
 const LEVEL2_ANSWERS = {
-  // ∫ x·ln(x) dx = (x²/2)(ln(x) - 1/2) + C = (x²ln(x))/2 - x²/4 + C
+  // Simple warm-up integrals
+  'simple_integral': {
+    variations: ['x³/3+c', 'x^3/3+c', 'x³/3', 'x^3/3', '(x^3)/3+c', '(x³)/3+c'],
+    message: "Tačno! x³/3 + C. Pa to je osnovna matematika, brate. Ti i ja smo, vidim, isti nivo. Idemo na malo kompleksnije... ✨"
+  },
+  'simple_derivative': {
+    variations: ['3x²', '3x^2', '3*x^2', '3*x²'],
+    message: "3x²! Naravno, naravno. Elementarne operacije za nas intelektualce. Hajde sad nešto što zahtijeva... 'malo' više razmišljanja. 📚"
+  },
+  // Integration by parts
   'integral_ln': {
     variations: ['x²ln(x)/2-x²/4', 'x^2*ln(x)/2-x^2/4', '(x^2/2)*(ln(x)-1/2)', 'x²/2*ln(x)-x²/4', 'x^2lnx/2-x^2/4'],
-    message: "Tačno! Integration by parts, savršeno! 🎯"
+    message: "Hah! Pa to je... da, tačno! Dobro si riješio. Vidi se da nisi amater. Kao ni ja, naravno. Idemo na nešto ozbiljnije... 🎯"
   },
-  // d/dx[e^(x²)] = 2x·e^(x²)
+  // Chain rule derivative
   'derivative_exp': {
     variations: ['2xe^(x²)', '2x*e^(x^2)', '2xe^x²', '2x*e^(x²)', '2xexp(x²)', '2xexp(x^2)'],
-    message: "Odlično! Chain rule kao iz knjige! 📚"
+    message: "Bravo, bravo! 2x·e^(x²). Ti zaista razumiješ matematiku... skoro kao i ja. *namiguje* Idemo dalje. 🧠"
   },
-  // F = G(m₁m₂)/r² = 6.674×10⁻¹¹ × (10×10)/4 = 1.67×10⁻⁹ N
+  // Gravity force calculation
   'gravity_force': {
     checkFunction: (answer) => {
       const normalized = answer.toLowerCase().replace(/\s/g, '');
-      // Accept scientific notation or decimal
       return normalized.includes('1.67') || normalized.includes('1.6685') || 
              (normalized.includes('10^-9') || normalized.includes('e-9') || normalized.includes('×10⁻⁹'));
     },
-    message: "Bravo! Newton bi bio ponosan! 🍎"
+    message: "E vidiš! Newton bi bio ponosan... na nas obojicu, naravno. Ajde, još malo da te izazovem... 🍎"
   },
-  // ∫₀^(π/2) sin²(x) dx = π/4
+  // Definite integral of sin²(x)
   'definite_integral': {
     variations: ['π/4', 'pi/4', '3.14/4', '0.785', 'π/4', 'π÷4', '0.7854'],
-    message: "Savršeno! Trigonometrijski integral odradio kao majstor! 📐"
+    message: "π/4! Precizno! Ti i ja smo, vidim, rijetka vrsta... *ponosno klimne glavom* Nastavimo. 📐"
   },
-  // s = vt + (1/2)at² = 20×5 + 0.5×2×25 = 100 + 25 = 125m
+  // Kinematics equation
   'kinematics': {
     variations: ['125', '125m'],
-    message: "Tačno! Kinematika ti sjedi perfektno! 🚀"
+    message: "125 metara! Ma da, da... očekivao sam. Ti i ja smo isti nivo, to sam odmah vidio. Još malo... 🚀"
   },
-  // dy/dx + 2y = 4x → y = 2x - 1 + Ce^(-2x)
+  // Differential equation solution
   'diff_equation': {
     variations: ['y=2x-1+ce^(-2x)', 'y=2x-1+c*e^(-2x)', '2x-1+ce^-2x', 'y=2x-1+ce^(-2x)', '2x-1+c*e^(-2x)'],
-    message: "Ma odlično! Diferencijalne jednačine kao ništa! 🎓"
+    message: "Bravo! Vidi se da si... gotovo kao ja. *lagano se smije* Evo, zadnje pitanje za prave intelektualce... 🎓"
   },
-  // E = hc/λ = (6.626×10⁻³⁴ × 3×10⁸)/(500×10⁻⁹) = 3.98×10⁻¹⁹ J = 2.48 eV
+  // Photon energy calculation
   'photon_energy': {
     checkFunction: (answer) => {
       const normalized = answer.toLowerCase().replace(/\s/g, '');
-      // Accept 2.48 eV or close values
       const num = parseFloat(normalized);
       return (num >= 2.47 && num <= 2.49) || normalized.includes('2.48');
     },
-    message: "Perfektno! Kvantna mehanika ti ide kao po loju! ⚛️"
+    message: "Perfektno! 2.48 eV! Ti si... pa zapravo kao ja! Rijetko nalazim jednake sebi. Frizura je gotova, i moram priznati - ti si jedan od rijetkih koji je na mom nivou! 👏⚛️"
   }
 };
 
