@@ -35,7 +35,7 @@ const questions = [
 ];
 
 // Initialize first dialogue
-currentDialogue.value = questions[0].text;
+currentDialogue.value = questions[0]?.text || 'Welcome!';
 
 const haircutEmoji = computed(() => {
   if (haircutQuality.value >= 90) return "💇‍♂️✨";
@@ -110,7 +110,7 @@ const sendMessage = async () => {
         dialogueHistory.value.push(`Aldin: ${successMsg}`);
         
         setTimeout(() => {
-          currentDialogue.value = questions[currentQuestion.value].text;
+          currentDialogue.value = questions[currentQuestion.value]?.text || '';
           isLoading.value = false;
         }, 800);
       } else {
