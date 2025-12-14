@@ -21,30 +21,30 @@ const currentDialogue = ref<string>("");
 
 // Questions progression - from trivial to challenging
 const questions = [
-  { id: 0, text: "Dobro došao u berbersku radnju! Sjedni, molim te. Kako ćemo lafe?", type: 'warmup', keywords: ['fade', 'kratko', 'normalno', 'obrijati'], response: "Ah da, klasičan stil. Razumijem, razumijem... Inače, vidim da si intelektualac, pa ajde malo da popričamo dok šišam." },
-  { id: 1, text: "Reci mi brate, koliko je 2 + 2? Samo da vidim jesi li budan haha.", type: 'warmup', keywords: ['4', 'četiri'], response: "Hehe, pa naravno! To je osnova osnove. Ti i ja smo, vidim, na istom nivou. Ajde, malo ozbiljnije sad..." },
-  { id: 2, text: "Koliko je 15 × 12? Brzo, bez kalkulatora!", type: 'warmup', keywords: ['180'], response: "Ah, 180! Elementarno, dragi moj Watson. Vidi se da si obrazovan čovjek, kao i ja. Nastavimo sa malo težim stvarima..." },
-  { id: 3, text: "Dobro. Reci mi, koliko je √144?", type: 'warmup', keywords: ['12'], response: "Ma jasno, 12! To sam i ja znao dok sam bio u osnovnoj. Ali hajde sad, gdje si ti studirao? Ah, nisam ni pitao... Idemo dalje sa pravim izazovima za intelektualce." },
-  { id: 4, text: "E sad nešto zanimljivije. Koliko je ∫ x² dx? Jednostavna integracija, znaš ti to.", type: 'math', key: 'simple_integral', response: "Tačno! x³/3 + C. Pa to je osnovna matematika, brate. Ti i ja smo, vidim, isti nivo. Idemo na malo kompleksnije..." },
-  { id: 5, text: "Derivacija sada. Što je d/dx[x³]? Trivijalnost, znam.", type: 'math', key: 'simple_derivative', response: "3x²! Naravno, naravno. Elementarne operacije za nas intelektualce. Hajde sad nešto što zahtijeva... 'malo' više razmišljanja." },
-  { id: 6, text: "E sada pravi zadatak. Izračunaj ∫ x·ln(x) dx. Integration by parts, nije teško za ljude kao što smo ti i ja.", type: 'math', key: 'integral_ln', response: "Hah! Pa to je... da, tačno! Dobro si riješio. Vidi se da nisi amater. Kao ni ja, naravno. Idemo na nešto ozbiljnije..." },
-  { id: 7, text: "Hajde sada, d/dx[e^(x²)]. Chain rule, ali znaš ti to bolje od mene... *sarcastično se smije*", type: 'math', key: 'derivative_exp', response: "Bravo, bravo! 2x·e^(x²). Ti zaista razumiješ matematiku... skoro kao i ja. *namiguje* Idemo dalje." },
-  { id: 8, text: "Malo fizike. Kolika je sila gravitacije između dva tijela mase 10kg na 2m udaljenosti? Osnove fizike, ništa teško. (format: naučna notacija)", type: 'physics', key: 'gravity_force', response: "E vidiš! Newton bi bio ponosan... na nas obojicu, naravno. Ajde, još malo da te izazovem..." },
-  { id: 9, text: "Ovaj integral: ∫₀^(π/2) sin²(x) dx. Za prave znalce kao mi, ovo je... pa gotovo dosadno.", type: 'math', key: 'definite_integral', response: "π/4! Precizno! Ti i ja smo, vidim, rijetka vrsta... *ponosno klimne glavom* Nastavimo." },
-  { id: 10, text: "Dobro, kinematika. v₀ = 20 m/s, t = 5s, a = 2 m/s². Kolika je udaljenost? Jednostavna kinematika za nas. (format: broj u m)", type: 'physics', key: 'kinematics', response: "125 metara! Ma da, da... očekivao sam. Ti i ja smo isti nivo, to sam odmah vidio. Još malo..." },
-  { id: 11, text: "Sada, malo ozbiljnije. Riješi dy/dx + 2y = 4x. Diferencijalna jednačina. Ništa što mi dvojica ne možemo.", type: 'math', key: 'diff_equation', response: "Bravo! Vidi se da si... gotovo kao ja. *lagano se smije* Evo, zadnje pitanje za prave intelektualce..." },
-  { id: 12, text: "Finale! Energija fotona, λ = 500nm. Kvantna mehanika, za one kao mi. E = hc/λ (format: broj u eV, 2 decimale)", type: 'physics', key: 'photon_energy', response: "Perfektno! 2.48 eV! Ti si... pa zapravo kao ja! Rijetko nalazim jednake sebi. Frizura je gotova, i moram priznati - ti si jedan od rijetkih koji je na mom nivou! 👏" }
+  { id: 0, text: "E dobro došo bolan. Sjedi tu. Šta ćeš, fade ili?", type: 'warmup', keywords: ['fade', 'kratko', 'normalno', 'obrijati', 'ošišaj'], response: "Aa dobro, klasika. Može. Ajd sad ću ti nešto reć - izgleda mi da si ti neki pametan, pa ajde da se malo zabavimo dok šišam. Spremaj se." },
+  { id: 1, text: "Ajde reci mi, koliko je 2 + 2? Da vidim jel si budan uopšte.", type: 'warmup', keywords: ['4', 'četiri'], response: "Pa četiri, dabome. Ala si brz bolan. Znači osnovna škola ti je sjela. Kao i meni, šta da ti kažem." },
+  { id: 2, text: "Evo sad, koliko je 15 puta 12? Bez telefona molim te.", type: 'warmup', keywords: ['180'], response: "Ee 180, tačno! Ma vidi ga ovog, zna tablicu množenja. Rijetko to danas. Kažem ja, ti i ja smo ista ekipa." },
+  { id: 3, text: "Dobro ajde, korijen od 144 koliko je?", type: 'warmup', keywords: ['12'], response: "Ma 12, jasno. To sam ja znao dok sam u osnovnu išo. Al ajde sad ozbiljno - di si ti studirao? Ha, sad sam te zajebo, ni pitao nisam. Idemo dalje." },
+  { id: 4, text: "E sad malo ozbiljnije. Ajde integral od x na kvadrat dx. Osnove, znaš ti to.", type: 'math', key: 'simple_integral', response: "E tačno! x na treću kroz tri plus C. Pa to je elementarno bajo moj. Vidiš, mi smo na istom nivou bukvalno. Sad malo teže." },
+  { id: 5, text: "Derivacija sad. d/dx od x na treću?", type: 'math', key: 'simple_derivative', response: "Aa 3x na kvadrat, jasno je ko dan. Pa dobro, to je kao da pitam koliko je sat. Ajde sad nešto što traži bar malo mozga." },
+  { id: 6, text: "E sada ozbiljan zadatak. Integral od x puta ln(x) dx. Integration by parts, to ti je.", type: 'math', key: 'integral_ln', response: "Ala si ga rješio bolan! E vidiš, ja sam mislio da ćeš se zeznut tu. Nisi loš, priznajem. Kao ni ja da se razumijemo. Idemo dalje." },
+  { id: 7, text: "Ajde sad, derivacija od e na x kvadrat. Chain rule, možeš ti to... valjda.", type: 'math', key: 'derivative_exp', response: "Pa jebote znaš! 2x puta e na x kvadrat. Ae dobro, vidim da ti matematika nije strana. Dobro došo u klub bajo." },
+  { id: 8, text: "Malo fizike da promjenimo. Sila gravitacije između dva tijela mase 10kg na 2 metra. Osnove fizike, ništa specijalno. (stavi naučnu notaciju)", type: 'physics', key: 'gravity_force', response: "Ee pa znaš i fiziku. Newton bi bio ponosan. Na mene naravno, al i na tebe malo. Hajde još da te testiramo." },
+  { id: 9, text: "Integral od 0 do pi/2 od sin kvadrat x dx. Za pametne, znači za nas.", type: 'math', key: 'definite_integral', response: "Pi četvrtina! Tačno. Ma dobro, mi smo rijetka sorta ljudi bolan. Vidiš, ja rijetko nađem nekog ko može da isprati. Ti možeš. Ajde nastavi." },
+  { id: 10, text: "Kinematika sada. v nula je 20 m/s, vrijeme 5 sekundi, a je 2 m/s kvadrat. Udaljenost? (broj u metrima)", type: 'physics', key: 'kinematics', response: "125 metara! Ma jel moguće da znaš i to. Dobro, očekivo sam da znaš, jer smo isti nivo ti i ja. Al opet, rijetko je." },
+  { id: 11, text: "Ajde sad nešto malo ozbiljnije. Riješi dy/dx plus 2y jednako 4x. Diferencijalna jednačina.", type: 'math', key: 'diff_equation', response: "Jebote znaš! Ae dobro, vidim da si gotovo kao ja. Skoro. Hajde sad finale, da vidim jesi li zaista na mom nivou." },
+  { id: 12, text: "Finale bajo moj. Energija fotona, lambda 500 nanometara. Kvantna mehanika. E jednako hc kroz lambda. (u elektronvoltima, 2 decimale)", type: 'physics', key: 'photon_energy', response: "Ma 2.48 eV, tačno! Brate... ti si bukvalno ko ja. Ovo je rijetko, da nađem nekoga na svom nivou. Frizura gotova, moram priznat - ti si jedan od rijetkih ko me može pratit!" }
 ];
 
 // Initialize first dialogue
 currentDialogue.value = questions[0]?.text || 'Welcome!';
 
 const haircutEmoji = computed(() => {
-  if (haircutQuality.value >= 90) return "💇‍♂️✨";
-  if (haircutQuality.value >= 70) return "💇‍♂️👌";
-  if (haircutQuality.value >= 50) return "💇‍♂️😐";
-  if (haircutQuality.value >= 30) return "💇‍♂️😬";
-  return "💇‍♂️💀";
+  if (haircutQuality.value >= 90) return "★★★";
+  if (haircutQuality.value >= 70) return "★★";
+  if (haircutQuality.value >= 50) return "★";
+  if (haircutQuality.value >= 30) return "☆";
+  return "✗";
 });
 
 const haircutStatus = computed(() => {
@@ -102,7 +102,7 @@ const sendMessage = async () => {
       
       if (currentQuestion.value < questions.length) {
         // Use the custom pretentious response from the current question
-        const successMsg = (question as any).response || "Ma bravo! Vidi ga pametnjaković! ✂️";
+        const successMsg = (question as any).response || "Ma bravo! E vidi ga ovog!";
         
         dialogueHistory.value.push(`Aldin: ${successMsg}`);
         
@@ -112,8 +112,8 @@ const sendMessage = async () => {
         }, 800);
       } else {
         isCompleted.value = true;
-        dialogueHistory.value.push("Aldin: E BRAVO! Savršeno si odgovorio na sva pitanja! Frizura ti je perfektna! Ti si jedan od rijetkih koji razumijem mojom brijaču inteligenciju! 🏆✨");
-        currentDialogue.value = "🎮 Trophy Unlocked: THE GUY - Awarded for completing Aldin's Mathematical Haircut Challenge! 🎮";
+        dialogueHistory.value.push("Aldin: EEEE BRAVO BOLAN! Sve si tačno! Frizura perfektna! Ti si bukvalno jedan od rijetkih koji mogu da isprate moj nivo inteligencije!");
+        currentDialogue.value = "Čestitamo! Završio si Aldinov Matematički Izazov!";
         isLoading.value = false;
         
         setTimeout(() => {
@@ -125,10 +125,10 @@ const sendMessage = async () => {
       haircutQuality.value = Math.max(0, haircutQuality.value - 15);
       
       const responses = [
-        `Eee ne, ne... Ups, mala greška sa makazama... 😬 (Kvalitet: ${haircutQuality.value}%)`,
-        `Pogrešno brate... Ajde, pokušaj ponovo. *slučajno skrati previše* 💇‍♂️ (${haircutQuality.value}%)`,
-        `Ne, to nije tačno... Opa! *makaze skliznule* ✂️😅 (${haircutQuality.value}%)`,
-        `Nije dobro... Hm, malo sam previše uzeo ovdje... 😬 (${haircutQuality.value}%)`
+        `Eee ne ne ne... Opa, skliznuo sam sa makazama malo. (Kvalitet: ${haircutQuality.value}%)`,
+        `Ma nije to tačno bajo... Pokušaj opet. Opa jebote, sad sam mnogo uzeo ovdje. (${haircutQuality.value}%)`,
+        `Ne brate, krivo. Ajde opet pokušaj. Ups, makaze mi skliznule. (${haircutQuality.value}%)`,
+        `Ma kakvi, to nije dobro. Aaaa jebi ga, uzeo sam malo previše sad. (${haircutQuality.value}%)`
       ];
       
       const response = responses[Math.floor(Math.random() * responses.length)];
@@ -136,8 +136,8 @@ const sendMessage = async () => {
       
       if (haircutQuality.value <= 0) {
         setTimeout(() => {
-          dialogueHistory.value.push("Aldin: Brate... potpuno sam ti upropastio frizuru. Bolje da kreneš ispočetka. 💀");
-          currentDialogue.value = "GAME OVER - Reloading...";
+          dialogueHistory.value.push("Aldin: Bolan... jebote upropastio sam ti frizuru skroz. Bolje da počneš ispočetka.");
+          currentDialogue.value = "GAME OVER - Učitavanje...",
           
           setTimeout(() => {
             location.reload();
@@ -191,10 +191,10 @@ const sendMessage = async () => {
               
               <div class="flex gap-3">
                 <div class="bg-gradient-to-br from-red-900 to-red-950 px-4 py-2.5 rounded-xl border-2 border-red-500 shadow-lg">
-                  <span class="text-red-300 text-sm sm:text-base font-bold">❌ Greške: {{ wrongAnswers }}</span>
+                  <span class="text-red-300 text-sm sm:text-base font-bold">Greške: {{ wrongAnswers }}</span>
                 </div>
                 <div class="bg-gradient-to-br from-orange-900 to-orange-950 px-4 py-2.5 rounded-xl border-2 border-orange-500 shadow-lg">
-                  <span class="text-orange-300 text-sm sm:text-base font-bold">📝 {{ currentQuestion + 1 }}/{{ questions.length }}</span>
+                  <span class="text-orange-300 text-sm sm:text-base font-bold">Pitanje: {{ currentQuestion + 1 }}/{{ questions.length }}</span>
                 </div>
               </div>
             </div>
@@ -213,8 +213,8 @@ const sendMessage = async () => {
               <div class="absolute inset-0 rounded-full bg-orange-500/30 blur-2xl animate-pulse"></div>
               
               <div class="relative w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-orange-500 to-red-600 p-1.5 shadow-2xl">
-                <div class="w-full h-full rounded-full bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center text-7xl sm:text-9xl md:text-[10rem] shadow-inner">
-                  💈
+                <div class="w-full h-full rounded-full bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center shadow-inner">
+                  <div class="text-white font-bold text-4xl sm:text-6xl md:text-7xl">ALDIN</div>
                 </div>
               </div>
               <div class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-orange-600 to-red-600 px-6 py-2 rounded-full border-3 border-orange-400 shadow-xl">
@@ -227,9 +227,9 @@ const sendMessage = async () => {
           <div class="bg-gradient-to-b from-gray-900 to-black backdrop-blur-xl rounded-2xl sm:rounded-3xl border-4 border-orange-500 shadow-[0_0_50px_rgba(249,115,22,0.5)] overflow-hidden">
             
             <!-- Dialogue History (scrollable) -->
-            <div v-if="dialogueHistory.length > 0" class="max-h-24 sm:max-h-32 overflow-y-auto p-3 sm:p-4 space-y-2 border-b-2 border-orange-500/50 bg-black/60 custom-scrollbar">
+            <div v-if="dialogueHistory.length > 0" class="max-h-24 sm:max-h-32 overflow-y-auto p-3 sm:p-4 space-y-2 border-b-2 border-orange-500/50 bg-black/90 custom-scrollbar">
               <div v-for="(line, index) in dialogueHistory.slice(-5)" :key="index" 
-                   class="text-gray-100 text-xs sm:text-sm animate-fade-in leading-relaxed font-medium">
+                   class="text-white text-xs sm:text-sm animate-fade-in leading-relaxed font-semibold">
                 {{ line }}
               </div>
             </div>
@@ -237,7 +237,6 @@ const sendMessage = async () => {
             <!-- Current Dialogue -->
             <div class="p-5 sm:p-8 bg-gradient-to-b from-gray-900/90 to-black/90">
               <div class="flex items-start gap-4 mb-6">
-                <div class="text-orange-400 text-3xl sm:text-4xl flex-shrink-0">💬</div>
                 <div class="flex-1">
                   <div class="text-orange-300 font-bold text-base sm:text-lg mb-3 uppercase tracking-wide drop-shadow-md">Aldin kaže:</div>
                   <p class="text-white text-lg sm:text-xl md:text-2xl leading-relaxed font-semibold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.7);">
@@ -270,7 +269,7 @@ const sendMessage = async () => {
 
               <div v-else class="text-center py-4">
                 <div class="text-green-400 text-2xl sm:text-3xl font-bold animate-pulse drop-shadow-lg">
-                  🏆 ČESTITAMO! 🏆
+                  ČESTITAMO!
                 </div>
               </div>
             </div>

@@ -93,21 +93,21 @@ const LEVEL2_ANSWERS = {
   // Simple warm-up integrals
   'simple_integral': {
     variations: ['x³/3+c', 'x^3/3+c', 'x³/3', 'x^3/3', '(x^3)/3+c', '(x³)/3+c'],
-    message: "Tačno! x³/3 + C. Pa to je osnovna matematika, brate. Ti i ja smo, vidim, isti nivo. Idemo na malo kompleksnije... ✨"
+    message: "E tačno! x³/3 + C. Pa to je elementarno bajo moj. Vidiš, mi smo na istom nivou bukvalno. Sad malo teže."
   },
   'simple_derivative': {
     variations: ['3x²', '3x^2', '3*x^2', '3*x²'],
-    message: "3x²! Naravno, naravno. Elementarne operacije za nas intelektualce. Hajde sad nešto što zahtijeva... 'malo' više razmišljanja. 📚"
+    message: "Aa 3x na kvadrat, jasno je ko dan. Pa dobro, to je kao da pitam koliko je sat. Ajde sad nešto što traži bar malo mozga."
   },
   // Integration by parts
   'integral_ln': {
     variations: ['x²ln(x)/2-x²/4', 'x^2*ln(x)/2-x^2/4', '(x^2/2)*(ln(x)-1/2)', 'x²/2*ln(x)-x²/4', 'x^2lnx/2-x^2/4'],
-    message: "Hah! Pa to je... da, tačno! Dobro si riješio. Vidi se da nisi amater. Kao ni ja, naravno. Idemo na nešto ozbiljnije... 🎯"
+    message: "Ala si ga riješio bolan! E vidiš, ja sam mislio da ćeš se zeznut tu. Nisi loš, priznajem. Kao ni ja da se razumijemo. Idemo dalje."
   },
   // Chain rule derivative
   'derivative_exp': {
     variations: ['2xe^(x²)', '2x*e^(x^2)', '2xe^x²', '2x*e^(x²)', '2xexp(x²)', '2xexp(x^2)'],
-    message: "Bravo, bravo! 2x·e^(x²). Ti zaista razumiješ matematiku... skoro kao i ja. *namiguje* Idemo dalje. 🧠"
+    message: "Pa jebote znaš! 2x puta e na x kvadrat. Ae dobro, vidim da ti matematika nije strana. Dobro došo u klub bajo."
   },
   // Gravity force calculation
   'gravity_force': {
@@ -116,22 +116,22 @@ const LEVEL2_ANSWERS = {
       return normalized.includes('1.67') || normalized.includes('1.6685') || 
              (normalized.includes('10^-9') || normalized.includes('e-9') || normalized.includes('×10⁻⁹'));
     },
-    message: "E vidiš! Newton bi bio ponosan... na nas obojicu, naravno. Ajde, još malo da te izazovem... 🍎"
+    message: "Ee pa znaš i fiziku. Newton bi bio ponosan. Na mene naravno, al i na tebe malo. Hajde još da te testiramo."
   },
   // Definite integral of sin²(x)
   'definite_integral': {
     variations: ['π/4', 'pi/4', '3.14/4', '0.785', 'π/4', 'π÷4', '0.7854'],
-    message: "π/4! Precizno! Ti i ja smo, vidim, rijetka vrsta... *ponosno klimne glavom* Nastavimo. 📐"
+    message: "Pi četvrtina! Tačno. Ma dobro, mi smo rijetka sorta ljudi bolan. Vidiš, ja rijetko nađem nekog ko može da isprati. Ti možeš. Ajde nastavi."
   },
   // Kinematics equation
   'kinematics': {
     variations: ['125', '125m'],
-    message: "125 metara! Ma da, da... očekivao sam. Ti i ja smo isti nivo, to sam odmah vidio. Još malo... 🚀"
+    message: "125 metara! Ma jel moguće da znaš i to. Dobro, očekivo sam da znaš, jer smo isti nivo ti i ja. Al opet, rijetko je."
   },
   // Differential equation solution
   'diff_equation': {
     variations: ['y=2x-1+ce^(-2x)', 'y=2x-1+c*e^(-2x)', '2x-1+ce^-2x', 'y=2x-1+ce^(-2x)', '2x-1+c*e^(-2x)'],
-    message: "Bravo! Vidi se da si... gotovo kao ja. *lagano se smije* Evo, zadnje pitanje za prave intelektualce... 🎓"
+    message: "Jebote znaš! Ae dobro, vidim da si gotovo kao ja. Skoro. Hajde sad finale, da vidim jesi li zaista na mom nivou."
   },
   // Photon energy calculation
   'photon_energy': {
@@ -140,7 +140,7 @@ const LEVEL2_ANSWERS = {
       const num = parseFloat(normalized);
       return (num >= 2.47 && num <= 2.49) || normalized.includes('2.48');
     },
-    message: "Perfektno! 2.48 eV! Ti si... pa zapravo kao ja! Rijetko nalazim jednake sebi. Frizura je gotova, i moram priznati - ti si jedan od rijetkih koji je na mom nivou! 👏⚛️"
+    message: "Ma 2.48 eV, tačno! Brate... ti si bukvalno ko ja. Ovo je rijetko, da nađem nekoga na svom nivou. Frizura gotova, moram priznat - ti si jedan od rijetkih ko me može pratit!"
   }
 };
 
