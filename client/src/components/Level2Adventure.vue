@@ -155,16 +155,16 @@ const sendMessage = async () => {
 </script>
 
 <template>
-  <div class="relative min-h-screen overflow-hidden bg-cover bg-center"
-       style="background-image: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2574');">
+  <div class="relative min-h-screen overflow-hidden flex flex-col">
     
-    <!-- Dark overlay -->
-    <div class="absolute inset-0 bg-black/75 backdrop-blur-[2px]"></div>
+    <!-- Background Layer -->
+    <div class="absolute inset-0 bg-cover bg-center"
+         style="background-image: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2574');">
+      <div class="absolute inset-0 bg-black/75 backdrop-blur-[2px]"></div>
+    </div>
     
-    <!-- Main content -->
-    <div class="relative z-10 min-h-screen flex flex-col">
-      
-      <!-- Top HUD -->
+    <!-- Top HUD - Separated with solid background -->
+    <div class="relative z-20 bg-gradient-to-b from-black via-gray-900/95 to-transparent border-b-2 border-orange-500/30">
       <div class="p-4 sm:p-6">
         <div class="max-w-7xl mx-auto">
           <div class="bg-gradient-to-r from-gray-900 to-black backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-5 border-3 border-orange-500 shadow-[0_0_40px_rgba(249,115,22,0.4)]">
@@ -203,11 +203,11 @@ const sendMessage = async () => {
             </div>
           </div>
         </div>
-      </div>
+    </div>
 
-      <!-- Character and dialogue area -->
-      <div class="flex-1 flex items-end justify-center px-3 sm:px-6 pb-4">
-        <div class="max-w-7xl w-full">
+    <!-- Main Game Area with Background -->
+    <div class="relative z-10 flex-1 flex items-end justify-center px-3 sm:px-6 pb-4">
+      <div class="max-w-7xl w-full">
           
           <!-- Character Avatar -->
           <div class="flex justify-center mb-6 sm:mb-8">
