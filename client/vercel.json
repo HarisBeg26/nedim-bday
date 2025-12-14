@@ -15,6 +15,13 @@
       "dest": "/assets/$1"
     },
     {
+      "src": "/(.*\\.mp3)",
+      "dest": "/$1",
+      "headers": {
+        "Content-Type": "audio/mpeg"
+      }
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
