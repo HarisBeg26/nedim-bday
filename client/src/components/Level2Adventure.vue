@@ -23,19 +23,23 @@ const musicStarted = ref<boolean>(false);
 
 // Questions progression - from trivial to challenging
 const questions = [
-  { id: 0, text: "E dobro došo bolan. Sjedi tu. Šta ćeš, fade ili?", type: 'warmup', keywords: ['fade', 'kratko', 'normalno', 'obrijati', 'ošišaj'], response: "Aa dobro, klasika. Može. Ajd sad ću ti nešto reć - izgleda mi da si ti neki pametan, pa ajde da se malo zabavimo dok šišam. Spremaj se." },
-  { id: 1, text: "Ajde reci mi, koliko je 2 + 2? Da vidim jel si budan uopšte.", type: 'warmup', keywords: ['4', 'četiri'], response: "Pa četiri, dabome. Ala si brz bolan. Znači osnovna škola ti je sjela. Kao i meni, šta da ti kažem." },
-  { id: 2, text: "Evo sad, koliko je 15 puta 12? Bez telefona molim te.", type: 'warmup', keywords: ['180'], response: "Ee 180, tačno! Ma vidi ga ovog, zna tablicu množenja. Rijetko to danas. Kažem ja, ti i ja smo ista ekipa." },
-  { id: 3, text: "Dobro ajde, korijen od 144 koliko je?", type: 'warmup', keywords: ['12'], response: "Ma 12, jasno. To sam ja znao dok sam u osnovnu išo. Al ajde sad ozbiljno - di si ti studirao? Ha, sad sam te zajebo, ni pitao nisam. Idemo dalje." },
-  { id: 4, text: "E sad malo ozbiljnije. Ajde integral od x na kvadrat dx. Osnove, znaš ti to.", type: 'math', key: 'simple_integral', response: "E tačno! x na treću kroz tri plus C. Pa to je elementarno bajo moj. Vidiš, mi smo na istom nivou bukvalno. Sad malo teže." },
-  { id: 5, text: "Derivacija sad. d/dx od x na treću?", type: 'math', key: 'simple_derivative', response: "Aa 3x na kvadrat, jasno je ko dan. Pa dobro, to je kao da pitam koliko je sat. Ajde sad nešto što traži bar malo mozga." },
-  { id: 6, text: "E sada ozbiljan zadatak. Integral od x puta ln(x) dx. Integration by parts, to ti je.", type: 'math', key: 'integral_ln', response: "Ala si ga rješio bolan! E vidiš, ja sam mislio da ćeš se zeznut tu. Nisi loš, priznajem. Kao ni ja da se razumijemo. Idemo dalje." },
-  { id: 7, text: "Ajde sad, derivacija od e na x kvadrat. Chain rule, možeš ti to... valjda.", type: 'math', key: 'derivative_exp', response: "Pa jebote znaš! 2x puta e na x kvadrat. Ae dobro, vidim da ti matematika nije strana. Dobro došo u klub bajo." },
-  { id: 8, text: "Malo fizike da promjenimo. Sila gravitacije između dva tijela mase 10kg na 2 metra. Osnove fizike, ništa specijalno. (stavi naučnu notaciju)", type: 'physics', key: 'gravity_force', response: "Ee pa znaš i fiziku. Newton bi bio ponosan. Na mene naravno, al i na tebe malo. Hajde još da te testiramo." },
-  { id: 9, text: "Integral od 0 do pi/2 od sin kvadrat x dx. Za pametne, znači za nas.", type: 'math', key: 'definite_integral', response: "Pi četvrtina! Tačno. Ma dobro, mi smo rijetka sorta ljudi bolan. Vidiš, ja rijetko nađem nekog ko može da isprati. Ti možeš. Ajde nastavi." },
-  { id: 10, text: "Kinematika sada. v nula je 20 m/s, vrijeme 5 sekundi, a je 2 m/s kvadrat. Udaljenost? (broj u metrima)", type: 'physics', key: 'kinematics', response: "125 metara! Ma jel moguće da znaš i to. Dobro, očekivo sam da znaš, jer smo isti nivo ti i ja. Al opet, rijetko je." },
-  { id: 11, text: "Ajde sad nešto malo ozbiljnije. Riješi dy/dx plus 2y jednako 4x. Diferencijalna jednačina.", type: 'math', key: 'diff_equation', response: "Jebote znaš! Ae dobro, vidim da si gotovo kao ja. Skoro. Hajde sad finale, da vidim jesi li zaista na mom nivou." },
-  { id: 12, text: "Finale bajo moj. Energija fotona, lambda 500 nanometara. Kvantna mehanika. E jednako hc kroz lambda. (u elektronvoltima, 2 decimale)", type: 'physics', key: 'photon_energy', response: "Ma 2.48 eV, tačno! Brate... ti si bukvalno ko ja. Ovo je rijetko, da nađem nekoga na svom nivou. Frizura gotova, moram priznat - ti si jedan od rijetkih ko me može pratit!" }
+  { id: 0, text: "E dobro došo bolan. Sjedi tu. Šta ćeš, fade ili?", type: 'warmup', keywords: ['fade', 'kratko', 'normalno', 'obrijati', 'ošišaj', 'da', 'može'], response: "Aa dobro, klasika. Može. Dobro izgledaš inače, kao da si se malo udebljao ha?" },
+  { id: 1, text: "Kaži mi bajo, kako si? Jesi zdrav?", type: 'casual', keywords: ['dobro', 'odlično', 'super', 'ok', 'normalno', 'nisam loše', 'može'], response: "Ma dobro dobro... Svi kažu dobro. A ja sam ovdje cijeli dan na nogama, šišam glupane. Al' ajde, navikao sam." },
+  { id: 2, text: "Kako su ti braća? Čuo sam da su dobri momci.", type: 'casual', keywords: ['dobro', 'dobri', 'super', 'odlično', 'ok', 'solidno', 'normalno'], response: "Aa dobri su? Lijepo, lijepo. Moji rođaci također, ali jebiga šta ćeš. Svi misle da su najpametniji u familiji ha ha." },
+  { id: 3, text: "Gdje si sad ti uopšte? Beograd ili?", type: 'casual', keywords: ['beograd', 'srbija', 'bg', 'ovdje', 'da'], response: "Beograd ha? Ma dobar grad, dobar grad. Ima posla tamo, bar nadam se da radiš nešto pametno, a ne kao neki..." },
+  { id: 4, text: "Šta studiraš ti? Nešto pametno sigurno, vidi ti mene.", type: 'casual', keywords: ['matematika', 'fizika', 'inženjerstvo', 'informatika', 'kompjuteri', 'it', 'računarstvo', 'programiranje'], response: "Aaa to? Pa dobro, respekt. Makar nisi kao ovi što studiraju neke gluposti. Ajde sad da vidim jesi li stvarno pametan ili samo misliš da jesi." },
+  { id: 5, text: "Ajde reci mi, koliko je 2 + 2? Da vidim jel si budan uopšte.", type: 'warmup', keywords: ['4', 'četiri'], response: "Pa četiri, dabome. Ala si brz bolan. Znači osnovna škola ti je sjela. Kao i meni, šta da ti kažem." },
+  { id: 6, text: "Evo sad, koliko je 15 puta 12? Bez telefona molim te.", type: 'warmup', keywords: ['180'], response: "Ee 180, tačno! Ma vidi ga ovog, zna tablicu množenja. Rijetko to danas. Kažem ja, ti i ja smo ista ekipa." },
+  { id: 7, text: "Dobro ajde, korijen od 144 koliko je?", type: 'warmup', keywords: ['12'], response: "Ma 12, jasno. To sam ja znao dok sam u osnovnu išo. Al ajde sad ozbiljno - vidi se da imaš mozga. Idemo dalje." },
+  { id: 8, text: "E sad malo ozbiljnije. Ajde integral od x na kvadrat dx. Osnove, znaš ti to.", type: 'math', key: 'simple_integral', response: "E tačno! x na treću kroz tri plus C. Pa to je elementarno bajo moj. Vidiš, mi smo na istom nivou bukvalno. Sad malo teže." },
+  { id: 9, text: "Derivacija sad. d/dx od x na treću?", type: 'math', key: 'simple_derivative', response: "Aa 3x na kvadrat, jasno je ko dan. Pa dobro, to je kao da pitam koliko je sat. Ajde sad nešto što traži bar malo mozga." },
+  { id: 10, text: "E sada ozbiljan zadatak. Integral od x puta ln(x) dx. Integration by parts, to ti je.", type: 'math', key: 'integral_ln', response: "Ala si ga rješio bolan! E vidiš, ja sam mislio da ćeš se zeznut tu. Nisi loš, priznajem. Kao ni ja da se razumijemo. Idemo dalje." },
+  { id: 11, text: "Ajde sad, derivacija od e na x kvadrat. Chain rule, možeš ti to... valjda.", type: 'math', key: 'derivative_exp', response: "Pa jebote znaš! 2x puta e na x kvadrat. Ae dobro, vidim da ti matematika nije strana. Dobro došo u klub bajo." },
+  { id: 12, text: "Malo fizike da promjenimo. Sila gravitacije između dva tijela mase 10kg na 2 metra. Osnove fizike, ništa specijalno. (stavi naučnu notaciju)", type: 'physics', key: 'gravity_force', response: "Ee pa znaš i fiziku. Newton bi bio ponosan. Na mene naravno, al i na tebe malo. Hajde još da te testiramo." },
+  { id: 13, text: "Integral od 0 do pi/2 od sin kvadrat x dx. Za pametne, znači za nas.", type: 'math', key: 'definite_integral', response: "Pi četvrtina! Tačno. Ma dobro, mi smo rijetka sorta ljudi bolan. Vidiš, ja rijetko nađem nekog ko može da isprati. Ti možeš. Ajde nastavi." },
+  { id: 14, text: "Kinematika sada. v nula je 20 m/s, vrijeme 5 sekundi, a je 2 m/s kvadrat. Udaljenost? (broj u metrima)", type: 'physics', key: 'kinematics', response: "125 metara! Ma jel moguće da znaš i to. Dobro, očekivo sam da znaš, jer smo isti nivo ti i ja. Al opet, rijetko je." },
+  { id: 15, text: "Ajde sad nešto malo ozbiljnije. Riješi dy/dx plus 2y jednako 4x. Diferencijalna jednačina.", type: 'math', key: 'diff_equation', response: "Jebote znaš! Ae dobro, vidim da si gotovo kao ja. Skoro. Hajde sad finale, da vidim jesi li zaista na mom nivou." },
+  { id: 16, text: "Finale bajo moj. Energija fotona, lambda 500 nanometara. Kvantna mehanika. E jednako hc kroz lambda. (u elektronvoltima, 2 decimale)", type: 'physics', key: 'photon_energy', response: "Ma 2.48 eV, tačno! Brate... ti si bukvalno ko ja. Ovo je rijetko, da nađem nekoga na svom nivou. Frizura gotova, moram priznat - ti si jedan od rijetkih ko me može pratit!" }
 ];
 
 // Initialize first dialogue
@@ -191,8 +195,8 @@ const sendMessage = async () => {
             <div class="flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap">
               <div class="flex-1 min-w-[200px]">
                 <div class="flex items-center gap-3 mb-3">
-                  <div class="text-orange-400 font-bold text-base sm:text-lg uppercase tracking-wide">Kvalitet Frizure</div>
-                  <div class="text-white font-mono text-xl sm:text-2xl font-bold">{{ haircutQuality }}%</div>
+                  <div class="text-black-400 font-bold text-base sm:text-lg uppercase tracking-wide">Kvalitet Frizure</div>
+                  <div class="text-black font-mono text-xl sm:text-2xl font-bold">{{ haircutQuality }}%</div>
                   <div class="text-3xl sm:text-4xl">{{ haircutEmoji }}</div>
                 </div>
                 <ProgressBar 
@@ -217,7 +221,7 @@ const sendMessage = async () => {
                   <span class="text-red-300 text-sm sm:text-base font-bold">Greške: {{ wrongAnswers }}</span>
                 </div>
                 <div class="bg-gradient-to-br from-orange-900 to-orange-950 px-4 py-2.5 rounded-xl border-2 border-orange-500 shadow-lg">
-                  <span class="text-orange-300 text-sm sm:text-base font-bold">Pitanje: {{ currentQuestion + 1 }}/{{ questions.length }}</span>
+                  <span class="text-black-300 text-sm sm:text-base font-bold">Pitanje: {{ currentQuestion + 1 }}/{{ questions.length }}</span>
                 </div>
               </div>
             </div>
@@ -233,15 +237,15 @@ const sendMessage = async () => {
           <div class="flex justify-center mb-6 sm:mb-8">
             <div class="relative">
               <!-- Glow effect -->
-              <div class="absolute inset-0 rounded-full bg-orange-500/30 blur-2xl animate-pulse"></div>
+              <div class="absolute inset-0 rounded-full bg-black-500/30 blur-2xl animate-pulse"></div>
               
               <div class="relative w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-orange-500 to-red-600 p-1.5 shadow-2xl">
                 <div class="w-full h-full rounded-full bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center shadow-inner">
-                  <div class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-200 font-bold text-4xl sm:text-6xl md:text-7xl drop-shadow-2xl">ALDIN</div>
+                  <div class="text-transparent bg-clip-text bg-gradient-to-r from-black-400 to-black-200 font-bold text-4xl sm:text-6xl md:text-7xl drop-shadow-2xl">ALDIN</div>
                 </div>
               </div>
               <div class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-orange-600 to-red-600 px-6 py-2 rounded-full border-3 border-orange-400 shadow-xl">
-                <span class="text-white font-bold text-base sm:text-lg drop-shadow-lg">Aldin</span>
+                <span class="text- font-bold text-base sm:text-lg drop-shadow-lg">Aldin</span>
               </div>
             </div>
           </div>
@@ -252,7 +256,7 @@ const sendMessage = async () => {
             <!-- Dialogue History (scrollable) -->
             <div v-if="dialogueHistory.length > 0" class="max-h-24 sm:max-h-32 overflow-y-auto p-3 sm:p-4 space-y-2 border-b-2 border-orange-500/50 bg-black custom-scrollbar">
               <div v-for="(line, index) in dialogueHistory.slice(-5)" :key="index" 
-                   class="text-orange-100 text-xs sm:text-sm animate-fade-in leading-relaxed font-semibold">
+                   class="text-black-100 text-xs sm:text-sm animate-fade-in leading-relaxed font-semibold">
                 {{ line }}
               </div>
             </div>
@@ -261,11 +265,11 @@ const sendMessage = async () => {
             <div class="p-5 sm:p-8 bg-gradient-to-b from-gray-900/90 to-black/90">
               <div class="flex items-start gap-4 mb-6">
                 <div class="flex-1">
-                  <div class="text-orange-300 font-bold text-base sm:text-lg mb-3 uppercase tracking-wide drop-shadow-md">Aldin kaže:</div>
-                  <p class="text-orange-50 text-lg sm:text-xl md:text-2xl leading-relaxed font-semibold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.7);">
+                  <div class="text-black-300 font-bold text-base sm:text-lg mb-3 uppercase tracking-wide drop-shadow-md">Aldin kaže:</div>
+                  <p class="text-black-50 text-lg sm:text-xl md:text-2xl leading-relaxed font-semibold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.7);">
                     {{ currentDialogue }}
                   </p>
-                  <div v-if="isLoading" class="mt-4 flex items-center gap-3 text-orange-400">
+                  <div v-if="isLoading" class="mt-4 flex items-center gap-3 text-black-400">
                     <i class="pi pi-spin pi-spinner text-lg"></i>
                     <span class="text-base">Aldin razmišlja...</span>
                   </div>
@@ -278,7 +282,7 @@ const sendMessage = async () => {
                   v-model="userInput"
                   @keyup.enter="sendMessage"
                   placeholder="Upiši svoj odgovor..."
-                  class="flex-1 !bg-gray-900/95 !border-2 !border-orange-500/70 focus:!border-orange-400 !text-orange-100 !text-lg sm:!text-xl !px-5 !py-4 !rounded-xl placeholder:!text-orange-300/60 shadow-lg font-medium"
+                  class="flex-1 !bg-gray-900/95 !border-2 !border-orange-500/70 focus:!border-orange-400 !text-orange-100 !text-lg sm:!text-xl !px-5 !py-4 !rounded-xl placeholder:!text-black-300/60 shadow-lg font-medium"
                   :disabled="isLoading"
                 />
                 <Button 
@@ -301,8 +305,8 @@ const sendMessage = async () => {
           <!-- Hint -->
           <div class="mt-4 text-center">
             <div class="inline-block bg-black/80 backdrop-blur-md px-6 py-3 rounded-full border-2 border-orange-500/60">
-              <p class="text-orange-200 text-sm sm:text-base flex items-center gap-2 font-semibold drop-shadow-md">
-                <i class="pi pi-info-circle text-orange-300"></i>
+              <p class="text-black-200 text-sm sm:text-base flex items-center gap-2 font-semibold drop-shadow-md">
+                <i class="pi pi-info-circle text-black-300"></i>
                 <span>Svaki pogrešan odgovor smanjuje kvalitet frizure!</span>
               </p>
             </div>
