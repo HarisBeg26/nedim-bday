@@ -51,13 +51,19 @@ currentDialogue.value = questions[0]?.text || 'Welcome!';
 // Function to start music
 const startMusic = () => {
   if (audioRef.value && !musicStarted.value) {
-    audioRef.value.play().catch(err => console.log('Audio play failed:', err));
-    musicStarted.value = true;
+    audioRef.value.play()
+      .then(() => {
+        musicStarted.value = true;
+      })
+      .catch(err => {
+        console.log('Audio play failed:', err);
+        // Don't set musicStarted to true on failure, so it can retry on user interaction
+      });
   }
 };
 
 onMounted(() => {
-  // Try to play music on mount
+  // Try to play music on mount (may be blocked by browser)
   startMusic();
 });
 
