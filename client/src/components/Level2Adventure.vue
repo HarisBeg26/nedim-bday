@@ -237,7 +237,7 @@ const sendMessage = async () => {
               
               <div class="relative w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-orange-500 to-red-600 p-1.5 shadow-2xl">
                 <div class="w-full h-full rounded-full bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center shadow-inner">
-                  <div class="text-white font-bold text-4xl sm:text-6xl md:text-7xl">ALDIN</div>
+                  <div class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-200 font-bold text-4xl sm:text-6xl md:text-7xl drop-shadow-2xl">ALDIN</div>
                 </div>
               </div>
               <div class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-orange-600 to-red-600 px-6 py-2 rounded-full border-3 border-orange-400 shadow-xl">
@@ -252,7 +252,7 @@ const sendMessage = async () => {
             <!-- Dialogue History (scrollable) -->
             <div v-if="dialogueHistory.length > 0" class="max-h-24 sm:max-h-32 overflow-y-auto p-3 sm:p-4 space-y-2 border-b-2 border-orange-500/50 bg-black custom-scrollbar">
               <div v-for="(line, index) in dialogueHistory.slice(-5)" :key="index" 
-                   class="text-white text-xs sm:text-sm animate-fade-in leading-relaxed font-semibold">
+                   class="text-orange-100 text-xs sm:text-sm animate-fade-in leading-relaxed font-semibold">
                 {{ line }}
               </div>
             </div>
@@ -262,7 +262,7 @@ const sendMessage = async () => {
               <div class="flex items-start gap-4 mb-6">
                 <div class="flex-1">
                   <div class="text-orange-300 font-bold text-base sm:text-lg mb-3 uppercase tracking-wide drop-shadow-md">Aldin kaže:</div>
-                  <p class="text-white text-lg sm:text-xl md:text-2xl leading-relaxed font-semibold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.7);">
+                  <p class="text-orange-50 text-lg sm:text-xl md:text-2xl leading-relaxed font-semibold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.7);">
                     {{ currentDialogue }}
                   </p>
                   <div v-if="isLoading" class="mt-4 flex items-center gap-3 text-orange-400">
@@ -278,7 +278,7 @@ const sendMessage = async () => {
                   v-model="userInput"
                   @keyup.enter="sendMessage"
                   placeholder="Upiši svoj odgovor..."
-                  class="flex-1 !bg-gray-800/90 !border-2 !border-orange-500/70 focus:!border-orange-400 !text-white !text-lg sm:!text-xl !px-5 !py-4 !rounded-xl placeholder:!text-gray-400 shadow-lg font-medium"
+                  class="flex-1 !bg-gray-900/95 !border-2 !border-orange-500/70 focus:!border-orange-400 !text-orange-100 !text-lg sm:!text-xl !px-5 !py-4 !rounded-xl placeholder:!text-orange-300/60 shadow-lg font-medium"
                   :disabled="isLoading"
                 />
                 <Button 
