@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import ProgressBar from 'primevue/progressbar';
@@ -18,6 +18,8 @@ const userInput = ref<string>("");
 const isLoading = ref<boolean>(false);
 const dialogueHistory = ref<string[]>([]);
 const currentDialogue = ref<string>("");
+const audioRef = ref<HTMLAudioElement | null>(null);
+const musicStarted = ref<boolean>(false);
 
 // Questions progression - from trivial to challenging
 const questions = [
@@ -38,6 +40,19 @@ const questions = [
 
 // Initialize first dialogue
 currentDialogue.value = questions[0]?.text || 'Welcome!';
+
+// Function to start music
+const startMusic = () => {
+  if (audioRef.value && !musicStarted.value) {
+    audioRef.value.play().catch(err => console.log('Audio play failed:', err));
+    musicStarted.value = true;
+  }
+};
+
+onMounted(() => {
+  // Try to play music on mount
+  startMusic();
+});
 
 const haircutEmoji = computed(() => {
   if (haircutQuality.value >= 90) return "★★★";
@@ -87,6 +102,9 @@ const checkAnswer = async (userAnswer: string, question: any): Promise<boolean> 
 
 const sendMessage = async () => {
   if (!userInput.value.trim() || isLoading.value) return;
+
+  // Start music on first interaction
+  startMusic();
 
   dialogueHistory.value.push(`Ti: ${userInput.value}`);
   const sentText = userInput.value;
@@ -155,7 +173,7 @@ const sendMessage = async () => {
   <div class="relative min-h-screen overflow-hidden flex flex-col">
     
     <!-- Background Music -->
-    <audio autoplay loop>
+    <audio ref="audioRef" loop>
       <source src="/New Recording 208.mp3" type="audio/mpeg">
     </audio>
     
