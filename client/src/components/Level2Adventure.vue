@@ -159,26 +159,26 @@ const sendMessage = async () => {
        style="background-image: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2574');">
     
     <!-- Dark overlay -->
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <div class="absolute inset-0 bg-black/75 backdrop-blur-[2px]"></div>
     
     <!-- Main content -->
     <div class="relative z-10 min-h-screen flex flex-col">
       
       <!-- Top HUD -->
-      <div class="p-3 sm:p-6">
+      <div class="p-4 sm:p-6">
         <div class="max-w-7xl mx-auto">
-          <div class="bg-black/80 backdrop-blur-md rounded-xl sm:rounded-2xl p-3 sm:p-4 border-2 border-orange-500/50 shadow-2xl">
-            <div class="flex items-center justify-between gap-4">
-              <div class="flex-1">
-                <div class="flex items-center gap-2 mb-2">
-                  <div class="text-orange-400 font-bold text-sm sm:text-base">Kvalitet Frizure</div>
-                  <div class="text-white font-mono text-lg sm:text-xl">{{ haircutQuality }}%</div>
-                  <div class="text-2xl sm:text-3xl">{{ haircutEmoji }}</div>
+          <div class="bg-gradient-to-r from-gray-900 to-black backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-5 border-3 border-orange-500 shadow-[0_0_40px_rgba(249,115,22,0.4)]">
+            <div class="flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap">
+              <div class="flex-1 min-w-[200px]">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="text-orange-400 font-bold text-base sm:text-lg uppercase tracking-wide">Kvalitet Frizure</div>
+                  <div class="text-white font-mono text-xl sm:text-2xl font-bold">{{ haircutQuality }}%</div>
+                  <div class="text-3xl sm:text-4xl">{{ haircutEmoji }}</div>
                 </div>
                 <ProgressBar 
                   :value="haircutQuality" 
                   :showValue="false"
-                  class="h-3 sm:h-4"
+                  class="h-4 sm:h-5"
                   :pt="{
                     value: {
                       style: {
@@ -189,15 +189,15 @@ const sendMessage = async () => {
                     }
                   }"
                 />
-                <div class="text-orange-300 text-xs sm:text-sm mt-1">{{ haircutStatus }}</div>
+                <div class="text-orange-300 text-sm sm:text-base mt-2 font-medium">{{ haircutStatus }}</div>
               </div>
               
-              <div class="flex flex-col gap-2">
-                <div class="bg-red-900/50 px-3 py-1 rounded-lg border border-red-500">
-                  <span class="text-red-300 text-xs sm:text-sm">❌ Greške: {{ wrongAnswers }}</span>
+              <div class="flex gap-3">
+                <div class="bg-gradient-to-br from-red-900 to-red-950 px-4 py-2.5 rounded-xl border-2 border-red-500 shadow-lg">
+                  <span class="text-red-300 text-sm sm:text-base font-bold">❌ Greške: {{ wrongAnswers }}</span>
                 </div>
-                <div class="bg-orange-900/50 px-3 py-1 rounded-lg border border-orange-500">
-                  <span class="text-orange-300 text-xs sm:text-sm">📝 {{ currentQuestion + 1 }}/{{ questions.length }}</span>
+                <div class="bg-gradient-to-br from-orange-900 to-orange-950 px-4 py-2.5 rounded-xl border-2 border-orange-500 shadow-lg">
+                  <span class="text-orange-300 text-sm sm:text-base font-bold">📝 {{ currentQuestion + 1 }}/{{ questions.length }}</span>
                 </div>
               </div>
             </div>
@@ -210,66 +210,69 @@ const sendMessage = async () => {
         <div class="max-w-7xl w-full">
           
           <!-- Character Avatar -->
-          <div class="flex justify-center mb-4">
+          <div class="flex justify-center mb-6 sm:mb-8">
             <div class="relative">
-              <div class="w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-orange-500 to-red-600 p-1 shadow-2xl">
-                <div class="w-full h-full rounded-full bg-gray-900 flex items-center justify-center text-6xl sm:text-8xl md:text-9xl">
+              <!-- Glow effect -->
+              <div class="absolute inset-0 rounded-full bg-orange-500/30 blur-2xl animate-pulse"></div>
+              
+              <div class="relative w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 rounded-full bg-gradient-to-br from-orange-500 to-red-600 p-1.5 shadow-2xl">
+                <div class="w-full h-full rounded-full bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center text-7xl sm:text-9xl md:text-[10rem] shadow-inner">
                   💈
                 </div>
               </div>
-              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-black/90 px-4 py-1 rounded-full border-2 border-orange-500">
-                <span class="text-orange-400 font-bold text-sm sm:text-base">Aldin</span>
+              <div class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-orange-600 to-red-600 px-6 py-2 rounded-full border-3 border-orange-400 shadow-xl">
+                <span class="text-white font-bold text-base sm:text-lg drop-shadow-lg">Aldin</span>
               </div>
             </div>
           </div>
 
           <!-- Dialogue Box -->
-          <div class="bg-black/90 backdrop-blur-md rounded-xl sm:rounded-2xl border-4 border-orange-500 shadow-2xl overflow-hidden">
+          <div class="bg-gradient-to-b from-gray-900 to-black backdrop-blur-xl rounded-2xl sm:rounded-3xl border-4 border-orange-500 shadow-[0_0_50px_rgba(249,115,22,0.5)] overflow-hidden">
             
             <!-- Dialogue History (scrollable) -->
-            <div class="max-h-32 sm:max-h-48 overflow-y-auto p-3 sm:p-4 space-y-2 border-b-2 border-orange-500/30 custom-scrollbar">
+            <div v-if="dialogueHistory.length > 0" class="max-h-24 sm:max-h-32 overflow-y-auto p-3 sm:p-4 space-y-2 border-b-2 border-orange-500/50 bg-black/40 custom-scrollbar">
               <div v-for="(line, index) in dialogueHistory.slice(-5)" :key="index" 
-                   class="text-gray-300 text-xs sm:text-sm animate-fade-in">
+                   class="text-gray-300 text-xs sm:text-sm animate-fade-in leading-relaxed">
                 {{ line }}
               </div>
             </div>
 
             <!-- Current Dialogue -->
-            <div class="p-4 sm:p-6 bg-gradient-to-b from-orange-900/20 to-transparent">
-              <div class="flex items-start gap-3 mb-4">
-                <div class="text-orange-400 text-2xl sm:text-3xl">💬</div>
+            <div class="p-5 sm:p-8 bg-gradient-to-b from-gray-900/90 to-black/90">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="text-orange-400 text-3xl sm:text-4xl flex-shrink-0">💬</div>
                 <div class="flex-1">
-                  <div class="text-orange-400 font-bold text-sm sm:text-base mb-2">Aldin kaže:</div>
-                  <p class="text-white text-base sm:text-lg md:text-xl leading-relaxed font-medium">
+                  <div class="text-orange-400 font-bold text-base sm:text-lg mb-3 uppercase tracking-wide">Aldin kaže:</div>
+                  <p class="text-white text-lg sm:text-xl md:text-2xl leading-relaxed font-medium drop-shadow-lg">
                     {{ currentDialogue }}
                   </p>
-                  <div v-if="isLoading" class="mt-3 flex items-center gap-2 text-orange-400">
-                    <i class="pi pi-spin pi-spinner"></i>
-                    <span class="text-sm">Aldin razmišlja...</span>
+                  <div v-if="isLoading" class="mt-4 flex items-center gap-3 text-orange-400">
+                    <i class="pi pi-spin pi-spinner text-lg"></i>
+                    <span class="text-base">Aldin razmišlja...</span>
                   </div>
                 </div>
               </div>
 
               <!-- Input Area -->
-              <div v-if="!isCompleted" class="flex gap-2 sm:gap-3">
+              <div v-if="!isCompleted" class="flex gap-3 sm:gap-4">
                 <InputText 
                   v-model="userInput"
                   @keyup.enter="sendMessage"
                   placeholder="Upiši svoj odgovor..."
-                  class="flex-1 !bg-black/50 !border-orange-500/50 !text-white placeholder:!text-gray-400 !text-base sm:!text-lg !px-4 !py-3"
+                  class="flex-1 !bg-gray-800/80 !border-2 !border-orange-500/70 focus:!border-orange-400 !text-white !text-lg sm:!text-xl !px-5 !py-4 !rounded-xl placeholder:!text-gray-500 shadow-lg"
                   :disabled="isLoading"
                 />
                 <Button 
                   @click="sendMessage"
                   icon="pi pi-send"
-                  class="!bg-gradient-to-r !from-orange-500 !to-red-600 !border-0 !px-4 sm:!px-6 !py-3"
+                  class="!bg-gradient-to-r !from-orange-500 !to-red-600 hover:!from-orange-600 hover:!to-red-700 !border-0 !px-6 sm:!px-8 !py-4 !rounded-xl !shadow-xl hover:!shadow-2xl transition-all"
                   :disabled="!userInput.trim() || isLoading"
                   size="large"
                 />
               </div>
 
-              <div v-else class="text-center">
-                <div class="text-green-400 text-xl sm:text-2xl font-bold animate-pulse">
+              <div v-else class="text-center py-4">
+                <div class="text-green-400 text-2xl sm:text-3xl font-bold animate-pulse drop-shadow-lg">
                   🏆 ČESTITAMO! 🏆
                 </div>
               </div>
@@ -277,11 +280,13 @@ const sendMessage = async () => {
           </div>
 
           <!-- Hint -->
-          <div class="mt-3 text-center">
-            <p class="text-orange-300 text-xs sm:text-sm flex items-center justify-center gap-2">
-              <i class="pi pi-info-circle"></i>
-              <span>Svaki pogrešan odgovor smanjuje kvalitet frizure!</span>
-            </p>
+          <div class="mt-4 text-center">
+            <div class="inline-block bg-black/70 backdrop-blur-md px-6 py-3 rounded-full border-2 border-orange-500/50">
+              <p class="text-orange-300 text-sm sm:text-base flex items-center gap-2 font-medium">
+                <i class="pi pi-info-circle text-orange-400"></i>
+                <span>Svaki pogrešan odgovor smanjuje kvalitet frizure!</span>
+              </p>
+            </div>
           </div>
 
         </div>
@@ -328,9 +333,30 @@ const sendMessage = async () => {
 /* Input styling */
 :deep(.p-inputtext) {
   font-size: 16px !important;
+  transition: all 0.3s ease;
 }
 
 :deep(.p-inputtext:focus) {
-  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.3) !important;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.4) !important;
+  transform: translateY(-2px);
+}
+
+:deep(.p-button) {
+  transition: all 0.3s ease;
+}
+
+:deep(.p-button:hover:not(:disabled)) {
+  transform: translateY(-2px);
+}
+
+:deep(.p-progressbar) {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+:deep(.p-progressbar-value) {
+  border-radius: 12px;
+  box-shadow: 0 0 20px currentColor;
 }
 </style>
