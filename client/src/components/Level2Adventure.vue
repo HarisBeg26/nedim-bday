@@ -229,12 +229,10 @@ const sendMessage = async () => {
     </audio>
     
     <!-- Jumpscare Overlay -->
-    <div v-if="showJumpscare" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999; background: black;">
-      <img 
-        src="/jumpscare.jpg"
-        style="width: 100%; height: 100%; object-fit: cover; display: block;"
-      />
-    </div>
+    <div 
+      v-if="showJumpscare" 
+      style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999; background-image: url('/jumpscare.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+    ></div>
     
     <!-- Background Layer -->
     <div class="absolute inset-0 bg-cover bg-center"
