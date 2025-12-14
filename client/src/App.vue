@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import Level1Form from './components/Level1Form.vue';
 import Level2Adventure from './components/Level2Adventure.vue';
 import type { LevelCompletionData } from './types';
 
-const currentLevel = ref<number>(1);
+const currentLevel = ref<number>(2); // Start directly at Level 2
 
 const handleLevelComplete = (data: LevelCompletionData) => {
   currentLevel.value = data.nextLevel;
@@ -12,25 +11,18 @@ const handleLevelComplete = (data: LevelCompletionData) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-purple-200 via-blue-100 to-pink-200 flex items-center justify-center p-2 sm:p-4 md:p-6 font-sans relative overflow-hidden">
-    <!-- Decorative background elements -->
-    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-    <div class="absolute top-10 left-10 w-48 h-48 sm:w-72 sm:h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-    <div class="absolute top-10 right-10 w-48 h-48 sm:w-72 sm:h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-    <div class="absolute -bottom-8 left-20 w-48 h-48 sm:w-72 sm:h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
-    
-    <div class="w-full max-w-4xl bg-white/95 backdrop-blur-lg p-4 sm:p-6 md:p-10 lg:p-12 rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-white/70 relative z-10">
-      
-      <Level1Form v-if="currentLevel === 1" @completed="handleLevelComplete" />
-      
-      <Level2Adventure v-if="currentLevel === 2" @completed="handleLevelComplete" />
+  <div class="min-h-screen font-sans relative overflow-hidden">
+    <Level2Adventure v-if="currentLevel === 2" @completed="handleLevelComplete" />
 
-      <div v-if="currentLevel === 3" class="text-center p-6 sm:p-12">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">
-          Level 3: Clicker coming soon...
+    <div v-if="currentLevel === 3" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-900 to-teal-900">
+      <div class="text-center p-6 sm:p-12 bg-black/60 backdrop-blur-lg rounded-3xl border-4 border-green-400">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-green-400 mb-4">
+          🏆 CONGRATULATIONS! 🏆
         </h2>
+        <p class="text-xl text-white">
+          You've completed Aldin's Challenge!
+        </p>
       </div>
-      
     </div>
   </div>
 </template>
