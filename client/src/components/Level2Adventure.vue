@@ -20,11 +20,14 @@ const dialogueHistory = ref<string[]>([]);
 const currentDialogue = ref<string>("");
 const audioRef = ref<HTMLAudioElement | null>(null);
 const musicStarted = ref<boolean>(false);
+const correctSoundRef = ref<HTMLAudioElement | null>(null);
+const wrongSoundRef = ref<HTMLAudioElement | null>(null);
+const showJumpscare = ref<boolean>(false);
 
 // Questions progression - from trivial to challenging
 const questions = [
   { id: 0, text: "E dobro došo bolan. Sjedi tu. Šta ćeš, fade ili?", type: 'warmup', keywords: ['fade', 'kratko', 'normalno', 'obrijati', 'ošišaj', 'da', 'može', 'buzz', 'buzzcut'], response: "Aa dobro, klasika. Može. Dobro izgledaš inače, kao da si se malo udebljao ha?" },
-  { id: 1, text: "Kaži mi lafe, kako si? Jesi zdrav?", type: 'casual', keywords: ['dobro', 'odlično', 'super', 'ok', 'normalno', 'nisam loše', 'može', 'jesam'], response: "Ma dobro dobro... Svi kažu dobro. A ja sam ovdje cijeli dan na nogama, šišam glupane. Al' ajde, navikao sam." },
+  { id: 1, text: "Kaži mi lafe, kako si? Jesi zdrav?", type: 'casual', keywords: ['dobro', 'odlično', 'super', 'ok', 'normalno', 'nisam loše', 'može', 'jesam brate', 'da brate'], response: "Ma dobro dobro... Svi kažu dobro. A ja sam ovdje cijeli dan na nogama, šišam glupane. Al' ajde, navikao sam." },
   { id: 2, text: "Kako su ti kod kuće? Čuo sam da imaju bolje zunze od tebe hahahah.", type: 'casual', keywords: ['dobro', 'dobri', 'super', 'odlično', 'ok', 'solidno', 'normalno', 'valjda'], response: "Aa dobri su? Lijepo, lijepo. Moji rođaci također, ali jebiga šta ćeš. Svi misle da su najpametniji u familiji ha ha." },
   { id: 3, text: "Vi ste se svi razbježali, jesi ti ono u New Yorku ili?", type: 'casual', keywords: ['ne', 'Princeton', 'SAD', 'ovdje', 'da'], response: "Čuuuj? Opasan si bogami lafe. Ima posla tamo, dobre plate, makar mi je tako od žene momak rekao. Bar nadam se da radiš nešto pametno, a ne kao neki..." },
   { id: 4, text: "Šta studiraš ti? Jel ono naka fizika bila?", type: 'casual', keywords: ['matematika', 'fizika', 'inženjerstvo', 'informatika', 'kompjuteri', 'it', 'računarstvo', 'programiranje'], response: "Aaa to? Pa dobro, respekt. To one nake formule, struja, I=EF i tome slično. I nas su nešto na taj fazon učilli. Nego haj da vidim koliko zapravo znaš" },
@@ -120,6 +123,12 @@ const sendMessage = async () => {
     const isCorrect = await checkAnswer(sentText, question);
     
     if (isCorrect) {
+      // Play correct answer sound
+      if (correctSoundRef.value) {
+        correctSoundRef.value.currentTime = 0;
+        correctSoundRef.value.play().catch(err => console.log('Correct sound failed:', err));
+      }
+
       currentQuestion.value++;
       
       if (currentQuestion.value < questions.length) {
@@ -146,28 +155,56 @@ const sendMessage = async () => {
       wrongAnswers.value++;
       haircutQuality.value = Math.max(0, haircutQuality.value - 15);
       
-      const responses = [
-        `Eee ne ne ne... Opa, skliznuo sam sa makazama malo. (Kvalitet: ${haircutQuality.value}%)`,
-        `Ma nije to tačno bajo... Pokušaj opet. Opa jebote, sad sam mnogo uzeo ovdje. (${haircutQuality.value}%)`,
-        `Ne brate, krivo. Ajde opet pokušaj. Ups, makaze mi skliznule. (${haircutQuality.value}%)`,
-        `Ma kakvi, to nije dobro. Aaaa jebi ga, uzeo sam malo previše sad. (${haircutQuality.value}%)`
-      ];
-      
-      const response = responses[Math.floor(Math.random() * responses.length)];
-      dialogueHistory.value.push(`Aldin: ${response}`);
-      
-      if (haircutQuality.value <= 0) {
-        setTimeout(() => {
-          dialogueHistory.value.push("Aldin: Bolan... jebote upropastio sam ti frizuru skroz. Bolje da počneš ispočetka.");
-          currentDialogue.value = "GAME OVER - Učitavanje...",
-          
-          setTimeout(() => {
-            location.reload();
-          }, 3000);
-        }, 1500);
+      // Play wrong answer sound and show jumpscare
+      if (wrongSoundRef.value) {
+        wrongSoundRef.value.currentTime = 0;
+        wrongSoundRef.value.play().catch(err => console.log('Wrong sound failed:', err));
       }
       
-      isLoading.value = false;
+      showJumpscare.value = true;
+      setTimeout(() => {
+        showJumpscare.value = false;
+      }, 1000);
+      
+      // Different response for math/physics questions
+      let response;
+      if (question.type === 'math' || question.type === 'physics') {
+        response = "Ma slabo vas uče bogami...";
+        // Still proceed to next question for math/physics
+        dialogueHistory.value.push(`Aldin: ${response}`);
+        
+        setTimeout(() => {
+          currentQuestion.value++;
+          if (currentQuestion.value < questions.length) {
+            currentDialogue.value = questions[currentQuestion.value]?.text || '';
+          }
+          isLoading.value = false;
+        }, 1500);
+      } else {
+        // For warmup/casual questions, use original responses
+        const responses = [
+          `Eee ne ne ne... Opa, skliznuo sam sa makazama malo. (Kvalitet: ${haircutQuality.value}%)`,
+          `Ma nije to tačno bajo... Pokušaj opet. Opa jebote, sad sam mnogo uzeo ovdje. (${haircutQuality.value}%)`,
+          `Ne brate, krivo. Ajde opet pokušaj. Ups, makaze mi skliznule. (${haircutQuality.value}%)`,
+          `Ma kakvi, to nije dobro. Aaaa jebi ga, uzeo sam malo previše sad. (${haircutQuality.value}%)`
+        ];
+        
+        response = responses[Math.floor(Math.random() * responses.length)];
+        dialogueHistory.value.push(`Aldin: ${response}`);
+        
+        if (haircutQuality.value <= 0) {
+          setTimeout(() => {
+            dialogueHistory.value.push("Aldin: Bolan... jebote upropastio sam ti frizuru skroz. Bolje da počneš ispočetka.");
+            currentDialogue.value = "GAME OVER - Učitavanje...";
+            
+            setTimeout(() => {
+              location.reload();
+            }, 3000);
+          }, 1500);
+        }
+        
+        isLoading.value = false;
+      }
     }
   }, 1000);
 };
@@ -180,6 +217,23 @@ const sendMessage = async () => {
     <audio ref="audioRef" loop>
       <source src="/New Recording 208.mp3" type="audio/mpeg">
     </audio>
+    
+    <!-- Correct Answer Sound -->
+    <audio ref="correctSoundRef">
+      <source src="/correct.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Wrong Answer Sound -->
+    <audio ref="wrongSoundRef">
+      <source src="/wrong.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Jumpscare Overlay -->
+    <transition name="jumpscare">
+      <div v-if="showJumpscare" class="fixed inset-0 z-50 flex items-center justify-center">
+        <img src="/WhatsApp Image 2025-12-14 at 20.15.46_f500ed95.jpg" class="w-full h-full object-cover" alt="jumpscare">
+      </div>
+    </transition>
     
     <!-- Background Layer -->
     <div class="absolute inset-0 bg-cover bg-center"
@@ -332,6 +386,26 @@ const sendMessage = async () => {
 
 .animate-fade-in {
   animation: fade-in 0.3s ease-out;
+}
+
+/* Jumpscare animation */
+.jumpscare-enter-active {
+  animation: jumpscare-flash 0.1s ease-out;
+}
+
+.jumpscare-leave-active {
+  animation: jumpscare-flash 0.1s ease-out reverse;
+}
+
+@keyframes jumpscare-flash {
+  0% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Custom scrollbar */
