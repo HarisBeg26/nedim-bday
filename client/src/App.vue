@@ -20,11 +20,11 @@ const handleLevelComplete = (data: LevelCompletionData) => {
         src="/congrats.jpg" 
         alt="Congratulations" 
         class="absolute inset-0 w-full h-full object-cover"
-        style="z-index: -1;"
+        style="z-index: 0;"
       />
       
       <!-- Message Box -->
-      <div class="text-center px-6 py-8 bg-black/80 backdrop-blur-lg rounded-3xl border-4 border-orange-500 shadow-2xl max-w-3xl mx-4 relative z-10">
+      <div class="text-center px-6 py-8 bg-black/80 backdrop-blur-lg rounded-3xl border-4 border-orange-500 shadow-2xl max-w-3xl mx-4 relative" style="z-index: 1;">
         <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-orange-400 mb-4 drop-shadow-lg">
           🎉 ČESTITAMO! 🎉
         </h2>
