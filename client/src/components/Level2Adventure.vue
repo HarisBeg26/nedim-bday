@@ -49,8 +49,9 @@ const questions = [
   { id: 16, text: "Finale bajo moj. Energija fotona, lambda 500 nanometara. Kvantna mehanika. Ajde da te vidim. (u elektronvoltima, 2 decimale)", type: 'physics', key: 'photon_energy', response: "Ma 2.48 eV, tačno! Brate... ti si bukvalno ko ja. Ovo je rijetko, da nađem nekoga na svom nivou. Frizura gotova, svi organi na mjestu, moram priznat, ti si jedan od rijetkih ko je ostao živ nakon mog ispitivanja!" }
 ];
 
-// Initialize first dialogue
-currentDialogue.value = questions[0]?.text || 'Welcome!';
+// Initialize first dialogue in unified history
+dialogueHistory.value.push(`Aldin: ${questions[0]?.text || 'Welcome!'}`);
+currentDialogue.value = '';
 
 // Function to start music
 const startMusic = () => {
@@ -167,17 +168,13 @@ const sendMessage = async () => {
 
       currentQuestion.value++;
       
-      if (currentQuestion.value < questions.length) {
-        // Use the custom pretentious response from the current question
-        const successMsg = (question as any).response || "Ma bravo! E vidi ga ovog!";
-        
-        dialogueHistory.value.push(`Aldin: ${successMsg}`);
-        
-        setTimeout(() => {
-          currentDialogue.value = questions[currentQuestion.value]?.text || '';
-          isLoading.value = false;
-        }, 800);
-      } else {
+          if (currentQuestion.value < questions.length) {
+            const successMsg = (question as any).response || "Ma bravo! E vidi ga ovog!";
+            dialogueHistory.value.push(`Aldin: ${successMsg}`);
+            const nextText = questions[currentQuestion.value]?.text || '';
+            if (nextText) dialogueHistory.value.push(`Aldin: ${nextText}`);
+            isLoading.value = false;
+          } else {
         isCompleted.value = true;
         showCongrats.value = true;
         dialogueHistory.value.push("Aldin: EEEE BRAVO BOLAN! Sve si tačno! Frizura perfektna! Ti si bukvalno jedan od rijetkih koji mogu da isprate moj nivo inteligencije!");
@@ -197,12 +194,12 @@ const sendMessage = async () => {
       console.log('[diag] WRONG answer', { wrongAnswers: wrongAnswers.value, haircutQuality: haircutQuality.value });
       
       // Play wrong answer sound and show jumpscare
+      // Show jumpscare and start sound at the same time
+      showJumpscare.value = true;
       if (wrongSoundRef.value) {
         wrongSoundRef.value.currentTime = 0;
         wrongSoundRef.value.play().catch(err => console.log('[diag] Wrong sound failed:', err));
       }
-      
-      showJumpscare.value = true;
       setTimeout(() => {
         showJumpscare.value = false;
       }, 1000);
@@ -217,7 +214,8 @@ const sendMessage = async () => {
         setTimeout(() => {
           currentQuestion.value++;
           if (currentQuestion.value < questions.length) {
-            currentDialogue.value = questions[currentQuestion.value]?.text || '';
+            const nextText = questions[currentQuestion.value]?.text || '';
+            if (nextText) dialogueHistory.value.push(`Aldin: ${nextText}`);
           }
           isLoading.value = false;
         }, 1500);
@@ -385,29 +383,17 @@ const sendMessage = async () => {
 
           <!-- Dialogue Box -->
           <div class="bg-gradient-to-b from-gray-900 to-black backdrop-blur-xl rounded-2xl sm:rounded-3xl border-4 border-orange-500 shadow-[0_0_50px_rgba(249,115,22,0.5)] overflow-hidden">
-            
-            <!-- Dialogue History (scrollable) -->
-            <div v-if="dialogueHistory.length > 0" class="max-h-24 sm:max-h-32 overflow-y-auto p-3 sm:p-4 space-y-2 border-b-2 border-orange-500/50 bg-black custom-scrollbar">
-              <div v-for="(line, index) in dialogueHistory.slice(-5)" :key="index" 
-                   class="text-black-100 text-xs sm:text-sm animate-fade-in leading-relaxed font-semibold">
+            <!-- Unified Dialogue (scrollable) -->
+            <div class="max-h-72 sm:max-h-96 overflow-y-auto p-4 sm:p-6 space-y-3 bg-black/80 custom-scrollbar">
+              <div v-for="(line, index) in dialogueHistory" :key="index" 
+                   class="text-black-100 text-sm sm:text-base animate-fade-in leading-relaxed font-semibold">
                 {{ line }}
               </div>
-            </div>
-
-            <!-- Current Dialogue -->
-            <div class="p-5 sm:p-8 bg-gradient-to-b from-gray-900/90 to-black/90">
-              <div class="flex items-start gap-4 mb-6">
-                <div class="flex-1">
-                  <div class="text-black-300 font-bold text-base sm:text-lg mb-3 uppercase tracking-wide drop-shadow-md">Aldin kaže:</div>
-                  <p class="text-black-50 text-lg sm:text-xl md:text-2xl leading-relaxed font-semibold" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.7);">
-                    {{ currentDialogue }}
-                  </p>
-                  <div v-if="isLoading" class="mt-4 flex items-center gap-3 text-black-400">
-                    <i class="pi pi-spin pi-spinner text-lg"></i>
-                    <span class="text-base">Aldin razmišlja...</span>
-                  </div>
-                </div>
+              <div v-if="isLoading" class="mt-2 flex items-center gap-3 text-black-300">
+                <i class="pi pi-spin pi-spinner text-lg"></i>
+                <span class="text-base">Aldin razmišlja...</span>
               </div>
+            </div>
 
               <!-- Input Area -->
               <div v-if="!isCompleted" class="flex gap-3 sm:gap-4">
