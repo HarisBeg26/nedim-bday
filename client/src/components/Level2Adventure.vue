@@ -274,14 +274,14 @@ const sendMessage = async () => {
       v-if="showJumpscare" 
       role="dialog" aria-modal="true" aria-label="Jumpscare"
       @click="showJumpscare = false"
-      style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100000; background: #000;"
+      style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100000; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center;"
     >
       <img 
         src="/jumpscare.jpg"
         alt="Jumpscare"
         @load="() => { jumpscareImgLoaded = true; console.log('[diag] jumpscare.jpg loaded'); }"
         @error="(e) => { jumpscareImgLoaded = false; console.log('[diag] jumpscare.jpg error', e); }"
-        style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;"
+        style="max-width: 80vw; max-height: 80vh; width: auto; height: auto; object-fit: contain; border: 6px solid #f97316; border-radius: 16px; box-shadow: 0 0 40px rgba(249,115,22,0.6), 0 20px 60px rgba(0,0,0,0.85); display: block;"
       />
     </div>
     
