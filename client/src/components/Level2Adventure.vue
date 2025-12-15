@@ -357,6 +357,7 @@ const sendMessage = async () => {
               </div>
             </div>
         </div>
+      </div>
     </div>
 
     <!-- Main Game Area with Background -->
@@ -380,51 +381,58 @@ const sendMessage = async () => {
             </div>
           </div>
 
-          <!-- Dialogue Box -->
-          <div class="bg-gradient-to-b from-gray-900 to-black backdrop-blur-xl rounded-3xl sm:rounded-[2rem] border-[3px] border-orange-500/80 shadow-[0_15px_40px_rgba(249,115,22,0.35)] overflow-hidden">
-            <!-- Unified Dialogue (scrollable) -->
-            <div class="max-h-72 sm:max-h-96 overflow-y-auto p-4 sm:p-6 space-y-3 bg-black/80 custom-scrollbar">
-              <div v-for="(line, index) in dialogueHistory" :key="index" 
-                   class="text-black-100 text-sm sm:text-base animate-fade-in leading-relaxed font-semibold">
-                {{ line }}
+          <!-- Dialogue Box (modern chat style) -->
+          <div class="rounded-3xl sm:rounded-[2rem] bg-gradient-to-b from-gray-900/80 to-black/80 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.35)] border border-white/10">
+            <!-- Conversation -->
+            <div class="max-h-96 overflow-y-auto p-4 sm:p-6 space-y-4 custom-scrollbar">
+              <div v-for="(line, index) in dialogueHistory" :key="index" class="animate-fade-in">
+                <div v-if="line.startsWith('Ti: ')" class="flex justify-end">
+                  <div class="max-w-[80%] bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-2.5 rounded-2xl rounded-br-sm shadow-lg">
+                    {{ line.replace('Ti: ', '') }}
+                  </div>
+                </div>
+                <div v-else class="flex justify-start">
+                  <div class="max-w-[80%] bg-gradient-to-r from-gray-800 to-gray-700 text-white px-4 py-2.5 rounded-2xl rounded-bl-sm shadow-lg">
+                    {{ line.replace('Aldin: ', '') }}
+                  </div>
+                </div>
               </div>
               <div v-if="isLoading" class="mt-2 flex items-center gap-3 text-black-300">
                 <i class="pi pi-spin pi-spinner text-lg"></i>
-                <span class="text-base">Aldin razmišlja...</span>
+                <span class="text-base text-white/80">Aldin razmišlja...</span>
               </div>
             </div>
 
-              <!-- Input Area -->
-              <div v-if="!isCompleted" class="flex gap-3 sm:gap-4">
-                <InputText 
-                  v-model="userInput"
-                  @keyup.enter="sendMessage"
-                  placeholder="Upiši svoj odgovor..."
-                  class="flex-1 !bg-gray-900/95 !border-2 !border-orange-500/70 focus:!border-orange-400 !text-orange-100 !text-lg sm:!text-xl !px-5 !py-4 !rounded-xl placeholder:!text-black-300/60 shadow-lg font-medium"
-                  :disabled="isLoading"
-                />
-                <Button 
-                  @click="sendMessage"
-                  icon="pi pi-send"
-                  class="!bg-gradient-to-r !from-orange-500 !to-red-600 hover:!from-orange-600 hover:!to-red-700 !border-0 !px-6 sm:!px-8 !py-4 !rounded-xl !shadow-xl hover:!shadow-2xl transition-all"
-                  :disabled="!userInput.trim() || isLoading"
-                  size="large"
-                />
-              </div>
+            <!-- Input Area -->
+            <div v-if="!isCompleted" class="flex gap-3 sm:gap-4 p-4 sm:p-6 border-t border-white/10">
+              <InputText 
+                v-model="userInput"
+                @keyup.enter="sendMessage"
+                placeholder="Upiši svoj odgovor..."
+                class="flex-1 !bg-gray-900/95 !border !border-white/20 focus:!border-emerald-400 !text-white !text-lg sm:!text-xl !px-5 !py-4 !rounded-2xl placeholder:!text-white/50 shadow-lg font-medium"
+                :disabled="isLoading"
+              />
+              <Button 
+                @click="sendMessage"
+                icon="pi pi-send"
+                class="!bg-gradient-to-r !from-emerald-600 !to-teal-600 hover:!from-emerald-500 hover:!to-teal-500 !border-0 !px-6 sm:!px-8 !py-4 !rounded-2xl !shadow-xl hover:!shadow-2xl transition-all"
+                :disabled="!userInput.trim() || isLoading"
+                size="large"
+              />
+            </div>
 
-              <div v-else class="text-center py-4">
-                <div class="text-green-400 text-2xl sm:text-3xl font-bold animate-pulse drop-shadow-lg">
-                  ČESTITAMO!
-                </div>
+            <div v-else class="text-center py-4">
+              <div class="text-green-400 text-2xl sm:text-3xl font-bold animate-pulse drop-shadow-lg">
+                ČESTITAMO!
               </div>
             </div>
           </div>
 
-          <!-- Hint -->
-          <div class="mt-6 flex justify-center">
-            <div class="inline-flex items-center gap-2 bg-gradient-to-r from-gray-900/90 to-black/90 px-5 py-2.5 rounded-2xl border border-orange-400/40 shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
-              <i class="pi pi-info-circle text-orange-300"></i>
-              <span class="text-orange-100 text-sm sm:text-base font-medium">Svaki pogrešan odgovor smanjuje kvalitet frizure!</span>
+          <!-- Hint (relocated below chat) -->
+          <div class="mt-8 flex justify-center">
+            <div class="inline-flex items-center gap-2 bg-black/70 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 text-white/80 shadow">
+              <i class="pi pi-info-circle text-white/80"></i>
+              <span class="text-sm sm:text-base">Svaki pogrešan odgovor smanjuje kvalitet frizure!</span>
             </div>
           </div>
 
