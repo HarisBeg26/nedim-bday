@@ -31,8 +31,8 @@ const jumpscareImgLoaded = ref<boolean>(false);
 // Questions progression - from trivial to challenging
 const questions = [
   { id: 0, text: "E dobro došo bolan. Sjedi tu. Kako ćemo lafe?", type: 'warmup', keywords: ['fade', 'ma', 'kec', 'nula', 'strana', 'strane', 'kratko', 'normalno', 'obrijati', 'ošišaj', 'da', 'može', 'buzz', 'buzzcut'], response: "Aa dobro, klasika. Može." },
-  { id: 1, text: "Kaži mi lafe, kako si? Jesi zdrav?", type: 'casual', keywords: ['evo', 'ma', 'dobro', 'odlično', 'super', 'ok', 'normalno', 'nije loše', 'može', 'jesam'], response: "Ma dobro dobro... Svi kažu dobro. A ja sam ovdje cijeli dan na nogama, šišam glupane. Al' ajde, navikao sam." },
-  { id: 2, text: "Kako su ti kod kuće? Čuo sam da imaju bolje zunze od tebe hahahah.", type: 'casual', keywords: ['dobro', 'dobri', 'super', 'odlično', 'ok', 'solidno', 'normalno', 'normala', 'valjda'], response: "Aa dobri su? Lijepo, lijepo. Moji rođaci također, ali jebiga šta ćeš. Svi misle da su najpametniji u familiji ha ha." },
+  { id: 1, text: "Kaži mi lafe, kako si? Jesi zdrav?", type: 'casual', keywords: ['evo', 'ma', 'dobro', 'odlično', 'super', 'ok', 'normalno', 'nije loše', 'može', 'jesam', 'da'], response: "Ma dobro dobro... Svi kažu dobro. A ja sam ovdje cijeli dan na nogama, šišam glupane. Al' ajde, navikao sam." },
+  { id: 2, text: "Kako su ti kod kuće? Čuo sam da imaju bolje zunze od tebe hahahah.", type: 'casual', keywords: ['dobro su', 'super', 'odlično', 'ok', 'solidno', 'normalno', 'normala', 'valjda'], response: "Aa dobri su? Lijepo, lijepo. Moji rođaci također, ali jebiga šta ćeš. Svi misle da su najpametniji u familiji ha ha." },
   { id: 3, text: "Vi ste se svi razbježali, jesi ti ono u New Yorku ili?", type: 'casual', keywords: ['ne', 'Princeton', 'prinston', 'Americi', 'Amerika', 'ma', 'ja', 'SAD', 'ovdje', 'da'], response: "Čuuuj? Opasan si bogami lafe. Ima posla tamo, dobre plate, makar mi je tako od žene momak rekao. Bar nadam se da radiš nešto pametno, a ne kao neki..." },
   { id: 4, text: "Šta studiraš ti? Jel ono naka fizika bila?", type: 'casual', keywords: ['ma', 'ja', 'da', 'valjda', 'matematika', 'fizika', 'inženjerstvo', 'informatika', 'kompjuteri', 'it', 'računarstvo', 'programiranje'], response: "Aaa to? Pa dobro, respekt. To one nake formule, struja, I=EF i tome slično. I nas su nešto na taj fazon učili. A jel ti problem majke ti da provjerim par stvari sa tobom, ono malo da osvježim znanje. Zahrđao sam ja ipak..." },
   { id: 5, text: "Ajde reci mi, koliko je 2 + 2?", type: 'warmup', keywords: ['4', 'četiri'], response: "Dobar si dobar si, vidim da si skoncentrisan. To ja malo da vidim jesil budan. Nemoj mislit da će i  ostala pitanja biti laka." },
@@ -387,12 +387,12 @@ const sendMessage = async () => {
             <div class="max-h-96 overflow-y-auto p-4 sm:p-6 space-y-4 custom-scrollbar">
               <div v-for="(line, index) in dialogueHistory" :key="index" class="animate-fade-in">
                 <div v-if="line.startsWith('Ti: ')" class="flex justify-end">
-                  <div class="max-w-[80%] bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-2.5 rounded-2xl rounded-br-sm shadow-lg">
+                  <div class="max-w-[80%] bg-gradient-to-r from-emerald-600 to-teal-600 text-black px-4 py-2.5 rounded-2xl rounded-br-sm shadow-lg">
                     {{ line.replace('Ti: ', '') }}
                   </div>
                 </div>
                 <div v-else class="flex justify-start">
-                  <div class="max-w-[80%] bg-gradient-to-r from-gray-800 to-gray-700 text-white px-4 py-2.5 rounded-2xl rounded-bl-sm shadow-lg">
+                  <div class="max-w-[80%] bg-gradient-to-r from-gray-800 to-gray-700 text-black px-4 py-2.5 rounded-2xl rounded-bl-sm shadow-lg">
                     {{ line.replace('Aldin: ', '') }}
                   </div>
                 </div>
