@@ -14,13 +14,16 @@ const handleLevelComplete = (data: LevelCompletionData) => {
   <div class="min-h-screen font-sans relative overflow-hidden">
     <Level2Adventure v-if="currentLevel === 2" @completed="handleLevelComplete" />
 
-    <div v-if="currentLevel === 3" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-900 to-teal-900">
-      <div class="text-center p-6 sm:p-12 bg-black/60 backdrop-blur-lg rounded-3xl border-4 border-green-400">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-green-400 mb-4">
-          🏆 CONGRATULATIONS! 🏆
+    <div v-if="currentLevel === 3" class="min-h-screen flex flex-col items-center justify-end pb-12 sm:pb-16" style="background-image: url('/congrats.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+      <div class="text-center px-6 py-8 bg-black/80 backdrop-blur-lg rounded-3xl border-4 border-orange-500 shadow-2xl max-w-3xl mx-4">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-orange-400 mb-4 drop-shadow-lg">
+          🎉 ČESTITAMO! 🎉
         </h2>
-        <p class="text-xl text-white">
-          You've completed Aldin's Challenge!
+        <p class="text-xl sm:text-2xl md:text-3xl text-white font-bold mb-3 drop-shadow-md">
+          Prošao si Aldinov Izazov!
+        </p>
+        <p class="text-2xl sm:text-3xl md:text-4xl text-orange-300 font-bold animate-pulse drop-shadow-lg">
+          🎂 SRETAN ROĐENDAN NEDIM! 🎂
         </p>
       </div>
     </div>
