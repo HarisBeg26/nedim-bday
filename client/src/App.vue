@@ -14,8 +14,17 @@ const handleLevelComplete = (data: LevelCompletionData) => {
   <div class="min-h-screen font-sans relative overflow-hidden">
     <Level2Adventure v-if="currentLevel === 2" @completed="handleLevelComplete" />
 
-    <div v-if="currentLevel === 3" class="min-h-screen flex flex-col items-center justify-end pb-12 sm:pb-16" style="background-image: url('/congrats.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-      <div class="text-center px-6 py-8 bg-black/80 backdrop-blur-lg rounded-3xl border-4 border-orange-500 shadow-2xl max-w-3xl mx-4">
+    <div v-if="currentLevel === 3" class="min-h-screen flex flex-col items-center justify-end pb-12 sm:pb-16 relative overflow-hidden">
+      <!-- Background Image -->
+      <img 
+        src="/congrats.jpg" 
+        alt="Congratulations" 
+        class="absolute inset-0 w-full h-full object-cover"
+        style="z-index: -1;"
+      />
+      
+      <!-- Message Box -->
+      <div class="text-center px-6 py-8 bg-black/80 backdrop-blur-lg rounded-3xl border-4 border-orange-500 shadow-2xl max-w-3xl mx-4 relative z-10">
         <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-orange-400 mb-4 drop-shadow-lg">
           🎉 ČESTITAMO! 🎉
         </h2>
