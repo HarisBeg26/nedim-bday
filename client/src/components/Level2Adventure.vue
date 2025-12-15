@@ -23,6 +23,7 @@ const musicStarted = ref<boolean>(false);
 const correctSoundRef = ref<HTMLAudioElement | null>(null);
 const wrongSoundRef = ref<HTMLAudioElement | null>(null);
 const showJumpscare = ref<boolean>(false);
+const showCongrats = ref<boolean>(false);
 
 // Questions progression - from trivial to challenging
 const questions = [
@@ -149,6 +150,7 @@ const sendMessage = async () => {
         }, 800);
       } else {
         isCompleted.value = true;
+        showCongrats.value = true;
         dialogueHistory.value.push("Aldin: EEEE BRAVO BOLAN! Sve si tačno! Frizura perfektna! Ti si bukvalno jedan od rijetkih koji mogu da isprate moj nivo inteligencije!");
         currentDialogue.value = "Čestitamo! Završio si Aldinov Matematički Izazov!";
         isLoading.value = false;
@@ -238,6 +240,12 @@ const sendMessage = async () => {
     <div 
       v-if="showJumpscare" 
       style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999; background-image: url('/jumpscare.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+    ></div>
+    
+    <!-- Congrats Overlay -->
+    <div 
+      v-if="showCongrats" 
+      style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999; background-image: url('/congrats.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;"
     ></div>
     
     <!-- Background Layer -->
