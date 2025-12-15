@@ -8,6 +8,8 @@ import type { LevelCompletionData } from '../types';
 const emit = defineEmits<{
   (e: 'completed', data: LevelCompletionData): void
 }>();
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 // Game state
 const currentQuestion = ref<number>(0);
@@ -156,8 +158,11 @@ const sendMessage = async () => {
         isLoading.value = false;
         
         setTimeout(() => {
+          // Navigate to the dedicated congrats page
+          router.push({ name: 'congrats' }).catch(() => {});
+          // Keep the emit for compatibility (no-op in App now)
           emit('completed', { nextLevel: 3 });
-        }, 4000);
+        }, 1200);
       }
     } else {
       wrongAnswers.value++;
@@ -232,15 +237,23 @@ const sendMessage = async () => {
     </audio>
     
     <!-- Wrong Answer Sound (add wrong.mp3 to public folder) -->
-    <audio ref="wrongSoundRef">
+    <audio ref="wrongSoundRef" preload="auto">
       <source src="/wrong.mp3" type="audio/mpeg">
     </audio>
     
-    <!-- Jumpscare Overlay -->
+    <!-- Jumpscare Modal Overlay -->
     <div 
       v-if="showJumpscare" 
-      style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999; background-image: url('/jumpscare.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;"
-    ></div>
+      role="dialog" aria-modal="true" aria-label="Jumpscare"
+      @click="showJumpscare = false"
+      style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100000; background: #000;"
+    >
+      <img 
+        src="/jumpscare.jpg"
+        alt="Jumpscare"
+        style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;"
+      />
+    </div>
     
     <!-- Congrats Overlay -->
     <div v-if="showCongrats" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999;">
