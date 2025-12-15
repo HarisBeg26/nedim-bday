@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen w-full relative overflow-hidden flex items-end justify-center pb-12 sm:pb-16">
+  <div class="min-h-screen w-full relative overflow-hidden flex items-start justify-center pt-10 sm:pt-14">
     <img 
       src="/congrats.jpg" 
       alt="Congratulations"

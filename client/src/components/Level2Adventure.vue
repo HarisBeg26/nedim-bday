@@ -319,7 +319,7 @@ const sendMessage = async () => {
     </div>
     
     <!-- Top HUD - Separated with solid background -->
-    <div class="relative z-20 bg-gradient-to-b from-black via-gray-900/95 to-transparent border-b-2 border-orange-500/30">
+    <div class="relative z-20 bg-gradient-to-b from-black via-gray-900/95 to-transparent">
       <div class="p-4 sm:p-6">
         <div class="max-w-7xl mx-auto">
           <div class="bg-gradient-to-r from-gray-900 to-black backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-5 border-3 border-orange-500 shadow-[0_0_40px_rgba(249,115,22,0.4)]">
@@ -381,7 +381,7 @@ const sendMessage = async () => {
           </div>
 
           <!-- Dialogue Box -->
-          <div class="bg-gradient-to-b from-gray-900 to-black backdrop-blur-xl rounded-2xl sm:rounded-3xl border-4 border-orange-500 shadow-[0_0_50px_rgba(249,115,22,0.5)] overflow-hidden">
+          <div class="bg-gradient-to-b from-gray-900 to-black backdrop-blur-xl rounded-3xl sm:rounded-[2rem] border-[3px] border-orange-500/80 shadow-[0_15px_40px_rgba(249,115,22,0.35)] overflow-hidden">
             <!-- Unified Dialogue (scrollable) -->
             <div class="max-h-72 sm:max-h-96 overflow-y-auto p-4 sm:p-6 space-y-3 bg-black/80 custom-scrollbar">
               <div v-for="(line, index) in dialogueHistory" :key="index" 
@@ -421,12 +421,10 @@ const sendMessage = async () => {
           </div>
 
           <!-- Hint -->
-          <div class="mt-4 text-center">
-            <div class="inline-block bg-black/80 backdrop-blur-md px-6 py-3 rounded-full border-2 border-orange-500/60">
-              <p class="text-black-200 text-sm sm:text-base flex items-center gap-2 font-semibold drop-shadow-md">
-                <i class="pi pi-info-circle text-black-300"></i>
-                <span>Svaki pogrešan odgovor smanjuje kvalitet frizure!</span>
-              </p>
+          <div class="mt-6 flex justify-center">
+            <div class="inline-flex items-center gap-2 bg-gradient-to-r from-gray-900/90 to-black/90 px-5 py-2.5 rounded-2xl border border-orange-400/40 shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
+              <i class="pi pi-info-circle text-orange-300"></i>
+              <span class="text-orange-100 text-sm sm:text-base font-medium">Svaki pogrešan odgovor smanjuje kvalitet frizure!</span>
             </div>
           </div>
 
