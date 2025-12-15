@@ -279,8 +279,8 @@ const sendMessage = async () => {
       <img 
         src="/jumpscare.jpg"
         alt="Jumpscare"
-        @load="() => { jumpscareImgLoaded.value = true; console.log('[diag] jumpscare.jpg loaded'); }"
-        @error="(e) => { jumpscareImgLoaded.value = false; console.log('[diag] jumpscare.jpg error', e); }"
+        @load="() => { jumpscareImgLoaded = true; console.log('[diag] jumpscare.jpg loaded'); }"
+        @error="(e) => { jumpscareImgLoaded = false; console.log('[diag] jumpscare.jpg error', e); }"
         style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;"
       />
     </div>
