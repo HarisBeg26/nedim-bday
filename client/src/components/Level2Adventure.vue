@@ -243,10 +243,33 @@ const sendMessage = async () => {
     ></div>
     
     <!-- Congrats Overlay -->
-    <div 
-      v-if="showCongrats" 
-      style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999; background-image: url('/congrats.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;"
-    ></div>
+    <div v-if="showCongrats" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 99999;">
+      <img 
+        src="/congrats.jpg" 
+        alt="Congratulations"
+        style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;"
+      />
+      <div 
+        style="
+          position: absolute;
+          left: 50%;
+          bottom: 6%;
+          transform: translateX(-50%);
+          background: rgba(0,0,0,0.8);
+          border: 4px solid #f97316;
+          border-radius: 18px;
+          padding: 18px 24px;
+          max-width: 90vw;
+          text-align: center;
+          color: #fff;
+          box-shadow: 0 0 40px rgba(249,115,22,0.4);
+        "
+      >
+        <div style="font-size: 32px; font-weight: 800; color: #fb923c; margin-bottom: 8px;">ČESTITAMO!</div>
+        <div style="font-size: 20px; font-weight: 700; margin-bottom: 6px;">Prošao si Aldinov Izazov!</div>
+        <div style="font-size: 26px; font-weight: 900; color: #fdba74;">SRETAN ROĐENDAN NEDIM!</div>
+      </div>
+    </div>
     
     <!-- Background Layer -->
     <div class="absolute inset-0 bg-cover bg-center"
