@@ -279,7 +279,7 @@ const sendMessage = async () => {
         alt="Jumpscare"
         @load="() => { jumpscareImgLoaded = true; console.log('[diag] jumpscare.jpg loaded'); }"
         @error="(e) => { jumpscareImgLoaded = false; console.log('[diag] jumpscare.jpg error', e); }"
-        style="max-width: 80vw; max-height: 80vh; width: auto; height: auto; object-fit: contain; border: 6px solid #f97316; border-radius: 16px; box-shadow: 0 0 40px rgba(249,115,22,0.6), 0 20px 60px rgba(0,0,0,0.85); display: block;"
+        style="max-width: 90vw; max-height: 90vh; width: auto; height: auto; object-fit: contain; border: 6px solid #f97316; border-radius: 16px; box-shadow: 0 0 40px rgba(249,115,22,0.6), 0 20px 60px rgba(0,0,0,0.85); display: block;"
       />
     </div>
     
@@ -356,7 +356,6 @@ const sendMessage = async () => {
                 </div>
               </div>
             </div>
-          </div>
         </div>
     </div>
 
