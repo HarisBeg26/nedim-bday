@@ -20,6 +20,14 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+// Basic request logger for diagnostics (low verbosity)
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api/')) {
+    console.log(`[diag][api] ${req.method} ${req.path}`);
+  }
+  next();
+});
+
 // Health check endpoint for Render
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'Server is running' });
@@ -149,30 +157,37 @@ app.post('/api/level2/check', (req, res) => {
   const { questionKey, answer } = req.body;
   
   if (!questionKey || !answer) {
+    console.log('[diag][level2/check] missing parameters', { questionKey, hasAnswer: !!answer });
     return res.status(400).json({ error: 'Missing questionKey or answer' });
   }
 
   const correctAnswer = LEVEL2_ANSWERS[questionKey];
   if (!correctAnswer) {
+    console.log('[diag][level2/check] invalid question key', { questionKey });
     return res.status(400).json({ error: 'Invalid question key' });
   }
 
   let isCorrect = false;
   const normalized = answer.toLowerCase().replace(/\s+/g, '').trim();
+  console.log('[diag][level2/check] incoming', { questionKey, normalized });
 
   // Check using custom function if available
   if (correctAnswer.checkFunction) {
     isCorrect = correctAnswer.checkFunction(answer);
+    console.log('[diag][level2/check] checkFunction result', { isCorrect });
   } else if (correctAnswer.variations) {
-    // Check against variations
+    // Check against variations (require strict equality on normalized strings)
     isCorrect = correctAnswer.variations.some(variation => {
       const varNormalized = variation.toLowerCase().replace(/\s+/g, '');
-      return normalized === varNormalized || 
-             normalized.includes(varNormalized) ||
-             varNormalized.includes(normalized);
+      const match = normalized === varNormalized;
+      if (match) {
+        console.log('[diag][level2/check] matched variation', { variation, varNormalized });
+      }
+      return match;
     });
   }
 
+  console.log('[diag][level2/check] final', { isCorrect });
   if (isCorrect) {
     res.json({
       correct: true,

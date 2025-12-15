@@ -16,7 +16,22 @@
 </template>
 
 <script setup lang="ts">
-// Page is purely presentational
+import { onMounted, ref } from 'vue';
+
+const imgEl = ref<HTMLImageElement | null>(null);
+
+onMounted(() => {
+  console.log('[diag] Congrats page mounted');
+  // Probe image availability with a separate Image instance to log dimensions
+  const probe = new Image();
+  probe.onload = () => {
+    console.log('[diag] congrats.jpg loaded', { width: probe.naturalWidth, height: probe.naturalHeight });
+  };
+  probe.onerror = (e) => {
+    console.log('[diag] congrats.jpg error', e);
+  };
+  probe.src = '/congrats.jpg';
+});
 </script>
 
 <style scoped>

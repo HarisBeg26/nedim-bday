@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import ProgressBar from 'primevue/progressbar';
@@ -26,6 +26,7 @@ const correctSoundRef = ref<HTMLAudioElement | null>(null);
 const wrongSoundRef = ref<HTMLAudioElement | null>(null);
 const showJumpscare = ref<boolean>(false);
 const showCongrats = ref<boolean>(false);
+const jumpscareImgLoaded = ref<boolean>(false);
 
 // Questions progression - from trivial to challenging
 const questions = [
@@ -53,13 +54,15 @@ currentDialogue.value = questions[0]?.text || 'Welcome!';
 
 // Function to start music
 const startMusic = () => {
+  console.log('[diag] startMusic called. haveAudio:', !!audioRef.value, 'musicStarted:', musicStarted.value);
   if (audioRef.value && !musicStarted.value) {
     audioRef.value.play()
       .then(() => {
         musicStarted.value = true;
+        console.log('[diag] background music playing');
       })
       .catch(err => {
-        console.log('Audio play failed:', err);
+        console.log('[diag] background music play failed:', err);
         // Don't set musicStarted to true on failure, so it can retry on user interaction
       });
   }
@@ -68,6 +71,22 @@ const startMusic = () => {
 onMounted(() => {
   // Try to play music on mount (may be blocked by browser)
   startMusic();
+  if (audioRef.value) {
+    audioRef.value.addEventListener('canplaythrough', () => console.log('[diag] bg audio canplaythrough'));
+    audioRef.value.addEventListener('error', (e) => console.log('[diag] bg audio error', e));
+  }
+  if (correctSoundRef.value) {
+    correctSoundRef.value.addEventListener('canplaythrough', () => console.log('[diag] correct.mp3 canplaythrough'));
+    correctSoundRef.value.addEventListener('error', (e) => console.log('[diag] correct.mp3 error', e));
+  }
+  if (wrongSoundRef.value) {
+    wrongSoundRef.value.addEventListener('canplaythrough', () => console.log('[diag] wrong.mp3 canplaythrough'));
+    wrongSoundRef.value.addEventListener('error', (e) => console.log('[diag] wrong.mp3 error', e));
+  }
+});
+
+watch(showJumpscare, (val) => {
+  console.log('[diag] showJumpscare ->', val);
 });
 
 const haircutEmoji = computed(() => {
@@ -90,11 +109,16 @@ const checkAnswer = async (userAnswer: string, question: any): Promise<boolean> 
   const normalized = userAnswer.toLowerCase().trim();
   
   if (question.type === 'warmup' || question.type === 'casual') {
-    return question.keywords.some((keyword: string) => normalized.includes(keyword.toLowerCase()));
+    // Match whole words only to avoid accidental substring matches
+    const words = (normalized.match(/[\p{L}0-9]+/gu) || []).map(w => w.toLowerCase());
+    const ok = question.keywords.some((keyword: string) => words.includes(keyword.toLowerCase()));
+    console.log('[diag] local check', { type: question.type, input: normalized, words, ok });
+    return ok;
   } else {
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
     
     try {
+      console.log('[diag] calling /api/level2/check', { questionKey: question.key, answer: userAnswer, API_URL });
       const response = await fetch(`${API_URL}/api/level2/check`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -105,12 +129,13 @@ const checkAnswer = async (userAnswer: string, question: any): Promise<boolean> 
       });
 
       const result = await response.json();
+      console.log('[diag] /api/level2/check result', { status: response.status, result });
       if (result.correct && result.message) {
         question.successMessage = result.message;
       }
       return result.correct;
     } catch (error) {
-      console.error('Error checking answer:', error);
+      console.error('[diag] Error checking answer:', error);
       return false;
     }
   }
@@ -129,13 +154,15 @@ const sendMessage = async () => {
 
   setTimeout(async () => {
     const question = questions[currentQuestion.value];
+    console.log('[diag] evaluating answer', { qid: question?.id, type: question?.type, text: question?.text, sentText });
     const isCorrect = await checkAnswer(sentText, question);
+    console.log('[diag] isCorrect =', isCorrect);
     
     if (isCorrect) {
       // Play correct answer sound
       if (correctSoundRef.value) {
         correctSoundRef.value.currentTime = 0;
-        correctSoundRef.value.play().catch(err => console.log('Correct sound failed:', err));
+        correctSoundRef.value.play().catch(err => console.log('[diag] Correct sound failed:', err));
       }
 
       currentQuestion.value++;
@@ -167,11 +194,12 @@ const sendMessage = async () => {
     } else {
       wrongAnswers.value++;
       haircutQuality.value = Math.max(0, haircutQuality.value - 15);
+      console.log('[diag] WRONG answer', { wrongAnswers: wrongAnswers.value, haircutQuality: haircutQuality.value });
       
       // Play wrong answer sound and show jumpscare
       if (wrongSoundRef.value) {
         wrongSoundRef.value.currentTime = 0;
-        wrongSoundRef.value.play().catch(err => console.log('Wrong sound failed:', err));
+        wrongSoundRef.value.play().catch(err => console.log('[diag] Wrong sound failed:', err));
       }
       
       showJumpscare.value = true;
@@ -251,6 +279,8 @@ const sendMessage = async () => {
       <img 
         src="/jumpscare.jpg"
         alt="Jumpscare"
+        @load="() => { jumpscareImgLoaded.value = true; console.log('[diag] jumpscare.jpg loaded'); }"
+        @error="(e) => { jumpscareImgLoaded.value = false; console.log('[diag] jumpscare.jpg error', e); }"
         style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;"
       />
     </div>
